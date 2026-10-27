@@ -6,7 +6,7 @@
 <style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<title>Carta ARCA pós-eleição</title>
+<title>Consulta ARCA</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,8 +61,8 @@ header.top .wrap{padding-block:28px 22px;display:grid;gap:18px}
 .title-row .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
 .badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:.75rem;font-weight:600;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
 .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--crit)}
-.tape{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.tick{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tape{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tick{background:var(--surface);box-shadow:0 0 0 1px var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .tick .v{font-family:var(--f-mono);font-size:1.15rem;font-weight:500;font-variant-numeric:tabular-nums}
 .tick .d{font-family:var(--f-mono);font-size:.78rem}
 .up{color:var(--good)} .down{color:var(--crit)}
@@ -149,6 +149,50 @@ input.money{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .step .when{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:500}
 .rule{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
 .rule .n{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--accent);line-height:1.2}
+/* fichas de empresas, consulta e calculadora */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.toolbar input[type="text"]{max-width:260px}
+.fbtn{appearance:none;font:inherit;font-size:.82rem;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn{appearance:none;font:inherit;font-size:.88rem;font-weight:600;padding:9px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--accent)}
+.btn:disabled{opacity:.55;cursor:default}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.co{display:grid;gap:10px;align-content:start}
+.co .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.co .tk{font-family:var(--f-mono);font-weight:500;font-size:1.05rem}
+.co .nm{font-size:.82rem;color:var(--muted)}
+.cls{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap;border:1px solid}
+.cls.nucleo{color:var(--good);border-color:var(--good)}
+.cls.ressalva{color:var(--serious);border-color:var(--serious)}
+.cls.satelite{color:var(--crit);border-color:var(--crit)}
+.checks{display:grid;gap:5px;font-size:.82rem}
+.checks div{display:grid;grid-template-columns:22px 92px 1fr;gap:6px;align-items:start}
+.mark{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:.7rem;font-weight:700;color:#fff;margin-top:1px}
+.mark.sim{background:var(--good)} .mark.parcial{background:var(--warn);color:#1a1a19} .mark.nao{background:var(--crit)}
+.score{display:flex;gap:3px}
+.score span{width:14px;height:6px;border-radius:2px;background:var(--surface-2)}
+.co .risk-t{font-size:.82rem;color:var(--ink-2);border-top:1px solid var(--line);padding-top:8px}
+.ask-out{white-space:pre-wrap;font-size:.92rem;line-height:1.6;color:var(--ink);min-height:1.5em}
+textarea{font:inherit;font-size:.9rem;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:100%;min-height:80px;resize:vertical}
+.calc-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) 70px minmax(0,1fr) 34px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.calc-row.head{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;padding-top:0}
+.calc-row input,.calc-row select{padding:7px 8px;font-size:.85rem}
+.calc-row .q{font-family:var(--f-mono);font-weight:500;text-align:right}
+.calc-row .c{font-family:var(--f-mono);font-size:.82rem;color:var(--ink-2);text-align:right}
+.xbtn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:1rem}
+@media (max-width:640px){
+  .calc-row{grid-template-columns:1fr 1fr}
+  .calc-row .xbtn{justify-self:end}
+  .calc-row.head{display:none}
+  .calc-row .c,.calc-row .q{text-align:left}
+}
+.totals{display:flex;flex-wrap:wrap;gap:18px;font-size:.88rem}
+.totals b{font-family:var(--f-mono);font-weight:500}
+.fresh{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted)}
+.fresh i{width:7px;height:7px;border-radius:50%;background:var(--neutral)}
+.fresh.live i{background:var(--good)}
+.steps{margin:0;padding-left:20px;display:grid;gap:8px}
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
 @media (prefers-reduced-motion:no-preference){.panel{animation:fade .25s ease}}
@@ -159,19 +203,16 @@ footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
   <div class="wrap">
     <div class="title-row">
       <div class="meta">
-        <span class="eyebrow">Análise B3 · Método ARCA · 27 de outubro de 2026</span>
-        <h1>Carta ARCA pós-eleição</h1>
-        <p class="lead">Lula foi reeleito com 51,8% dos votos. O Ibovespa caiu 13,9% no dia seguinte e o dólar subiu 8%. Abaixo, valuation, cenários e uma alocação que se ajusta ao seu perfil.</p>
+        <span class="eyebrow">B3 · Método ARCA · Ações perenes</span>
+        <h1>Consulta ARCA</h1>
+        <p class="lead" id="resumo"></p>
       </div>
-      <span class="badge"><span class="dot"></span>Volatilidade alta · circuit breaker em 26/10</span>
+      <div style="display:grid;gap:6px;justify-items:start">
+        <span class="badge"><span class="dot"></span>Volatilidade alta após a eleição</span>
+        <span class="fresh" id="fresh"><i></i><span></span></span>
+      </div>
     </div>
-    <div class="tape" aria-label="Cotações">
-      <div class="tick"><span class="eyebrow">Ibovespa</span><span class="v">177,8 mil</span><span class="d down">fech. 26/10: 176.608 (−13,88%)</span></div>
-      <div class="tick"><span class="eyebrow">Dólar à vista</span><span class="v">R$ 5,33</span><span class="d up">fech. 26/10: R$ 5,40 (+8,2%)</span></div>
-      <div class="tick"><span class="eyebrow">Selic</span><span class="v">13,75%</span><span class="d flat">curva já precifica alta</span></div>
-      <div class="tick"><span class="eyebrow">Risco-país</span><span class="v">151,6 pts</span><span class="d down">+26% em 26/10</span></div>
-      <div class="tick"><span class="eyebrow">IPCA-15 · 12 meses</span><span class="v">4,47%</span><span class="d flat">setembro de 2026</span></div>
-    </div>
+    <div class="tape" aria-label="Cotações" id="tape"></div>
   </div>
 </header>
 
@@ -182,6 +223,9 @@ footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
     <button class="tab" role="tab" data-tab="cenario" id="t-cenario">Cenários</button>
     <button class="tab" role="tab" data-tab="diagnostico" id="t-diagnostico">Diagnóstico</button>
     <button class="tab" role="tab" data-tab="alocacao" id="t-alocacao">Alocação ARCA<span class="pill" id="tabProfile">Moderado</span></button>
+    <button class="tab" role="tab" data-tab="perenes" id="t-perenes">Ações perenes</button>
+    <button class="tab" role="tab" data-tab="calculadora" id="t-calculadora">Calculadora do mês</button>
+    <button class="tab" role="tab" data-tab="comoinvestir" id="t-comoinvestir">Como investir</button>
     <button class="tab" role="tab" data-tab="riscos" id="t-riscos">Riscos</button>
     <button class="tab" role="tab" data-tab="plano" id="t-plano">Plano de ação</button>
     <button class="tab" role="tab" data-tab="fontes" id="t-fontes">Fontes</button>
@@ -327,6 +371,22 @@ footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
     <div class="card block"><span class="eyebrow">Aproveite</span><h3>IPCA+ acima de 7% de juro real</h3><p class="muted">Estava abaixo de 7% no início de outubro e voltou a subir com força. Taxas assim são historicamente raras.</p></div>
     <div class="card block"><span class="eyebrow">Cuidado com</span><h3>Comprar todo o dólar no pico</h3><p class="muted">A moeda já subiu 8%. Monte a posição em parcelas mensais.</p></div>
   </div>
+  <div class="block">
+    <span class="eyebrow">Por que não comprar tudo de uma vez</span>
+    <h3>Parcelar troca parte do ganho no melhor cenário por proteção no pior</h3>
+    <p class="lead">Na média, comprar tudo de uma vez rende mais: estudos como o da Vanguard mostram isso em cerca de 2 de cada 3 períodos. Agora há eventos grandes marcados (equipe econômica, Copom, Orçamento de 2027), e o dinheiro que espera no Tesouro Selic rende cerca de 1% ao mês. Por isso esperar custa pouco.</p>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Exemplo com R$ 24 mil em ações</th><th class="r">Tudo hoje</th><th class="r">6 parcelas de R$ 4 mil</th></tr></thead>
+      <tbody>
+        <tr><td>Bolsa sobe 15% direto</td><td class="r num"><b>+R$ 3.600</b></td><td class="r num">~+R$ 1.800</td></tr>
+        <tr><td>Bolsa cai 15% e depois se recupera</td><td class="r num">−R$ 3.600 no fundo</td><td class="r">Compra mais barato e termina <b>no lucro</b></td></tr>
+        <tr><td>Bolsa cai 25% (cenário pessimista)</td><td class="r num"><b>−R$ 6.000</b></td><td class="r">Perda bem menor</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">Parcelar também ajuda a não desistir: quem compra tudo e vê −20% no primeiro mês costuma vender no fundo. Se o Ibovespa cair para perto de 165 mil, o plano já prevê adiantar duas parcelas.</div>
 </section>
 
 <!-- ALOCAÇÃO -->
@@ -393,6 +453,135 @@ footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
         <div class="chart" style="height:300px"><canvas id="cDca" aria-label="Carteira acumulada por pilar ao longo de 6 meses"></canvas></div>
         <p class="note">A parte cinza é a munição: dinheiro do aporte inicial que espera no Tesouro Selic até a parcela seguinte. Os aportes mensais são divididos pelos percentuais-alvo.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- AÇÕES PERENES -->
+<section class="panel" id="perenes" role="tabpanel" aria-labelledby="t-perenes" hidden>
+  <div class="block">
+    <span class="eyebrow">Ações perenes</span>
+    <h2>Empresas que dificilmente quebram</h2>
+    <p class="lead">Setores que o país vai precisar daqui a 30 anos, com escudo contra concorrentes, lucro constante e dividendos. Nenhuma empresa é literalmente inquebrável: Americanas, Oi e OGX já foram vistas como sólidas. Por isso a carteira deve ter 6 a 8 empresas.</p>
+  </div>
+  <div class="card block">
+    <h3>O filtro: 5 perguntas</h3>
+    <div class="grid3" style="gap:12px">
+      <div class="rule"><span class="n">1</span><p><b>Setor perene.</b> O país vai precisar disso daqui a 30 anos? Energia, água, bancos, seguros e telecom passam.</p></div>
+      <div class="rule"><span class="n">2</span><p><b>Escudo.</b> É difícil um concorrente roubar os clientes? Concessão, rede já construída, marca forte.</p></div>
+      <div class="rule"><span class="n">3</span><p><b>Lucro constante.</b> Lucro há 10 anos ou mais, sem prejuízo grande.</p></div>
+      <div class="rule"><span class="n">4</span><p><b>Dívida controlada.</b> Dívida líquida abaixo de 3 vezes o EBITDA, menos ainda fora do setor elétrico.</p></div>
+      <div class="rule"><span class="n">5</span><p><b>Dividendos constantes</b> há muitos anos.</p></div>
+    </div>
+  </div>
+  <div class="toolbar">
+    <input type="text" id="busca" placeholder="Buscar ticker ou setor" aria-label="Buscar ticker ou setor">
+    <div class="toolbar" role="group" aria-label="Filtrar por classificação" id="filtroCls">
+      <button type="button" class="fbtn" data-v="todas" aria-pressed="true">Todas</button>
+      <button type="button" class="fbtn" data-v="nucleo" aria-pressed="false">Núcleo perene</button>
+      <button type="button" class="fbtn" data-v="ressalva" aria-pressed="false">Com ressalva</button>
+      <button type="button" class="fbtn" data-v="satelite" aria-pressed="false">Satélite</button>
+    </div>
+  </div>
+  <div class="cards" id="coCards"></div>
+  <p class="note" id="coNote"></p>
+  <div class="callout"><b>Petrobras e Banco do Brasil</b> são grandes e pagam muitos dividendos, mas são estatais, e esse risco ficou mais alto depois da eleição. Se quiser tê-las, que somem no máximo 10–15% das suas ações e nunca substituam as perenes.</div>
+
+  <div class="card block" id="askCard" hidden>
+    <span class="eyebrow">Consulta com o Claude</span>
+    <h3>Passe uma empresa ou dúvida pelo filtro</h3>
+    <p class="muted">Digite um ticker que não está na lista (por exemplo, WEGE3) ou faça uma pergunta sobre a sua carteira. O Claude responde com base no próprio conhecimento e nos dados desta página, sem cotações ao vivo. A consulta usa a sua conta do Claude e pede autorização na primeira vez.</p>
+    <label class="field"><span class="lbl">Ticker ou pergunta</span><textarea id="askIn" placeholder="Ex.: WEGE3 passa no filtro perene?"></textarea></label>
+    <div class="toolbar"><button type="button" class="btn" id="askBtn">Consultar</button><button type="button" class="btn ghost" id="askStop" hidden>Parar</button></div>
+    <div class="ask-out" id="askOut" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- CALCULADORA -->
+<section class="panel" id="calculadora" role="tabpanel" aria-labelledby="t-calculadora" hidden>
+  <div class="block">
+    <span class="eyebrow">Calculadora do mês</span>
+    <h2>Quantas ações e cotas comprar</h2>
+    <p class="lead">Digite quanto vai investir e o preço que aparece no app. A calculadora arredonda para baixo, porque não dá para comprar fração de ação, e mostra quanto sobra.</p>
+  </div>
+  <div class="card block">
+    <div class="toolbar">
+      <div class="field" style="min-width:160px"><label for="calcAcoes">Valor para ações (R$)</label><input type="text" inputmode="numeric" class="money" id="calcAcoes"></div>
+      <div class="field" style="min-width:160px"><label for="calcFiis">Valor para FIIs (R$)</label><input type="text" inputmode="numeric" class="money" id="calcFiis"></div>
+      <button type="button" class="btn ghost" id="calcDividir" style="align-self:end">Dividir igualmente</button>
+    </div>
+  </div>
+  <div class="card block">
+    <h3>Ações · mercado fracionário (código com F)</h3>
+    <div id="calcA"></div>
+    <div class="toolbar"><button type="button" class="btn ghost" id="addA">Adicionar ação</button></div>
+  </div>
+  <div class="card block">
+    <h3>FIIs · compra por cota</h3>
+    <div id="calcF"></div>
+    <div class="toolbar"><button type="button" class="btn ghost" id="addF">Adicionar FII</button></div>
+  </div>
+  <div class="card block">
+    <div class="totals" id="calcTot"></div>
+    <p class="note" id="calcNote">Preço em branco: digite o valor que aparece no app da sua corretora. Preços de referência, quando existem, vêm da última atualização da página e podem estar defasados.</p>
+  </div>
+</section>
+
+<!-- COMO INVESTIR -->
+<section class="panel" id="comoinvestir" role="tabpanel" aria-labelledby="t-comoinvestir" hidden>
+  <div class="block">
+    <span class="eyebrow">Como investir</span>
+    <h2>Da conta na corretora até a primeira ação</h2>
+  </div>
+  <div class="grid2">
+    <div class="card block">
+      <h3>Segurança: o que acontece se a corretora quebrar</h3>
+      <ul class="clean">
+        <li><b>Ações, FIIs, ETFs e Tesouro Direto</b> ficam no seu CPF na B3, não no balanço da corretora. Numa quebra, você transfere para outra.</li>
+        <li><b>CDB, LCI e LCA</b> têm cobertura do FGC: até R$ 250 mil por CPF por banco emissor, com teto de R$ 1 milhão a cada 4 anos.</li>
+        <li><b>Fundos de investimento</b> têm patrimônio separado da corretora.</li>
+      </ul>
+    </div>
+    <div class="card block">
+      <h3>Onde fazer cada pilar (exemplo: XP)</h3>
+      <ul class="clean">
+        <li><b>Ações:</b> home broker, em lotes ou no fracionário (ITUB4F).</li>
+        <li><b>Renda fixa:</b> Tesouro Direto, CDB, LCI e LCA.</li>
+        <li><b>Exterior:</b> IVVB11, WRLD11, BDRs ou a conta internacional.</li>
+        <li><b>FIIs:</b> home broker, a partir de 1 cota.</li>
+      </ul>
+      <p class="note">Rico, BTG, Inter e Nubank fazem o mesmo. Para o exterior, Avenue e Nomad são alternativas.</p>
+    </div>
+  </div>
+  <div class="card block">
+    <h3>Comprar uma ação no app</h3>
+    <ol class="steps">
+      <li>Transfira o dinheiro por Pix de uma conta no seu nome.</li>
+      <li>Toque na lupa e digite o código, por exemplo TAEE11.</li>
+      <li>Toque em <b>Comprar</b>. Para menos de 100 ações, use o código com F (TAEE11F).</li>
+      <li>Escolha ordem <b>Limitada</b>, com preço máximo perto da cotação, e validade "Hoje".</li>
+      <li>Revise, assine e confirme. Acompanhe em <b>Ordens</b> até aparecer "Executada".</li>
+    </ol>
+    <p class="note">O pregão vai das 10h às 17h em dias úteis. Ordens fora desse horário esperam a abertura.</p>
+  </div>
+  <div class="grid2">
+    <div class="card block">
+      <h3>Custos e impostos</h3>
+      <ul class="clean">
+        <li>Confira a tabela de corretagem atual da corretora: ela muda com frequência.</li>
+        <li>Tesouro Direto: a B3 cobra 0,20% ao ano de custódia, e o Tesouro Selic é isento até R$ 10 mil.</li>
+        <li>Vendas de ações acima de R$ 20 mil no mês pagam 15% de IR sobre o lucro. Abaixo disso, o lucro é isento.</li>
+        <li>Dividendos caem direto na conta da corretora.</li>
+      </ul>
+    </div>
+    <div class="card block">
+      <h3>Desconfie se oferecerem</h3>
+      <ul class="clean">
+        <li>COE e operações estruturadas</li>
+        <li>Previdência com taxa alta</li>
+        <li>Fundos com taxa de administração acima de 1% ao ano</li>
+      </ul>
+      <p class="note">Assessores costumam ganhar comissão sobre produtos. Para seguir o ARCA, você não precisa de nenhum desses.</p>
     </div>
   </div>
 </section>
@@ -499,7 +688,7 @@ footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
 
 </div>
 </main>
-<footer><div class="wrap">Carta ARCA pós-eleição · dados até 27/10/2026, manhã · conteúdo educacional, não é recomendação individual.</div></footer>
+<footer><div class="wrap">Consulta ARCA · análise de cenário de 27/10/2026 · <span id="footFresh"></span> · conteúdo educacional, não é recomendação individual.</div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
@@ -509,6 +698,220 @@ const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).
 const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
 const pct = (v,d=0) => v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}) + '%';
 const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- dados atualizáveis ----------
+   Na página do Claude, cotações e fichas vêm do banco da página (painel/mercado e empresas/*),
+   que é atualizado sem republicar. Fora dela (cópia hospedada), vale o retrato embutido abaixo. */
+const EMBUTIDO = {
+  mercado:{
+    atualizadoEm:'2026-10-27',
+    resumo:'Lula foi reeleito com 51,8% dos votos. O Ibovespa caiu 13,9% no dia seguinte e o dólar subiu 8%. Aqui você encontra valuation, cenários, ações perenes e uma alocação que se ajusta ao seu perfil.',
+    itens:[
+      {rotulo:'Ibovespa', valor:'177,8 mil', nota:'fech. 26/10: 176.608 (−13,88%)', tom:'down'},
+      {rotulo:'Dólar à vista', valor:'R$ 5,33', nota:'fech. 26/10: R$ 5,40 (+8,2%)', tom:'up'},
+      {rotulo:'Selic', valor:'13,75%', nota:'curva já precifica alta', tom:'flat'},
+      {rotulo:'Risco-país', valor:'151,6 pts', nota:'+26% em 26/10', tom:'down'},
+      {rotulo:'IPCA-15 · 12 meses', valor:'4,47%', nota:'setembro de 2026', tom:'flat'}
+    ]
+  },
+  empresas:[
+    {ticker:'TAEE11', nome:'Taesa', setor:'Transmissão de energia', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'parcial',dividendos:'sim'},
+     escudo:'Contratos de concessão de 30 anos com receita corrigida pela inflação', risco:'Dívida alta para financiar novos projetos; controle compartilhado entre Cemig (estatal mineira) e ISA'},
+    {ticker:'ITSA4', nome:'Itaúsa', setor:'Banco (holding do Itaú)', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'sim',dividendos:'sim'},
+     escudo:'Controla o maior banco privado do país, com lucro há décadas', risco:'Bancos oscilam mais com crise de crédito e juros altos'},
+    {ticker:'ITUB4', nome:'Itaú Unibanco', setor:'Banco', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'sim',dividendos:'sim'},
+     escudo:'Escala, marca e base de clientes de alta renda', risco:'Caiu forte com a reeleição; sensível a inadimplência'},
+    {ticker:'VIVT3', nome:'Vivo (Telefônica Brasil)', setor:'Telecom', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'sim',dividendos:'sim'},
+     escudo:'Maior rede de fibra e celular do país; caro de replicar', risco:'Crescimento lento; concorrência em preço no móvel'},
+    {ticker:'EGIE3', nome:'Engie Brasil', setor:'Geração de energia', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'parcial',dividendos:'sim'},
+     escudo:'Usinas com contratos longos de venda de energia', risco:'Dívida subiu com investimentos em transmissão; risco hidrológico'},
+    {ticker:'SBSP3', nome:'Sabesp', setor:'Saneamento', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'parcial',dividendos:'parcial'},
+     escudo:'Monopólio natural da rede de água e esgoto em São Paulo', risco:'Privatizada em 2024; investimentos altos até 2029 limitam dividendos'},
+    {ticker:'SAPR11', nome:'Sanepar', setor:'Saneamento', classe:'ressalva', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'sim',dividendos:'parcial'},
+     escudo:'Monopólio natural da rede de água e esgoto no Paraná', risco:'Estatal estadual: reajustes de tarifa dependem do governo'},
+    {ticker:'BBSE3', nome:'BB Seguridade', setor:'Seguros', classe:'ressalva', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'sim',dividendos:'sim'},
+     escudo:'Vende seguros pela rede de agências do Banco do Brasil', risco:'Controlada pelo Banco do Brasil, portanto estatal indireta'},
+    {ticker:'CPFE3', nome:'CPFL Energia', setor:'Distribuição e geração de energia', classe:'nucleo', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'sim',divida:'parcial',dividendos:'sim'},
+     escudo:'Concessões de distribuição em regiões ricas de SP e RS', risco:'Renovação das concessões de distribuição; controle chinês (State Grid)'},
+    {ticker:'VALE3', nome:'Vale', setor:'Mineração', classe:'satelite', tipo:'acao',
+     filtro:{setor:'parcial',escudo:'sim',lucro:'parcial',divida:'sim',dividendos:'parcial'},
+     escudo:'Minério de ferro de alta qualidade e custo baixo', risco:'Commodity: lucro depende da China; histórico de desastres (Mariana, Brumadinho)'},
+    {ticker:'BBAS3', nome:'Banco do Brasil', setor:'Banco', classe:'satelite', tipo:'acao',
+     filtro:{setor:'sim',escudo:'sim',lucro:'parcial',divida:'sim',dividendos:'parcial'},
+     escudo:'Tamanho, folha de pagamento do governo e crédito agrícola', risco:'Estatal: pode ser usado para emprestar barato; inadimplência no agro pesou desde 2025'},
+    {ticker:'PETR4', nome:'Petrobras', setor:'Petróleo', classe:'satelite', tipo:'acao',
+     filtro:{setor:'parcial',escudo:'sim',lucro:'nao',divida:'parcial',dividendos:'nao'},
+     escudo:'Pré-sal com custo de extração baixo', risco:'Estatal e commodity: prejuízos em 2014–15 e 2020; política de preços e dividendos muda com o governo'}
+  ],
+  fiis:[
+    {ticker:'KNCR11', nome:'Kinea Rendimentos', tipo:'Papel (CDI)'},
+    {ticker:'CPTS11', nome:'Capitânia Securities', tipo:'Papel'},
+    {ticker:'KNIP11', nome:'Kinea Índices de Preços', tipo:'Papel (IPCA)'},
+    {ticker:'HGLG11', nome:'CSHG Logística', tipo:'Tijolo (logística)'},
+    {ticker:'XPML11', nome:'XP Malls', tipo:'Tijolo (shoppings)'}
+  ]
+};
+const DADOS = {mercado:EMBUTIDO.mercado, empresas:EMBUTIDO.empresas, fiis:EMBUTIDO.fiis, aoVivo:false};
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const dataBR = iso => { const d = String(iso||'').slice(0,10).split('-'); return d.length===3 ? `${d[2]}/${d[1]}/${d[0]}` : String(iso||''); };
+
+function renderMercado(){
+  const m = DADOS.mercado;
+  $('#resumo').textContent = m.resumo || '';
+  $('#tape').innerHTML = (m.itens||[]).map(t=>`<div class="tick"><span class="eyebrow">${esc(t.rotulo)}</span><span class="v">${esc(t.valor)}</span><span class="d ${t.tom==='up'?'up':t.tom==='down'?'down':'flat'}">${esc(t.nota)}</span></div>`).join('');
+  const f = $('#fresh');
+  f.classList.toggle('live', DADOS.aoVivo);
+  f.querySelector('span').textContent = (DADOS.aoVivo ? 'Cotações atualizadas em ' : 'Retrato de ') + dataBR(m.atualizadoEm);
+  $('#footFresh').textContent = 'cotações e fichas de ' + dataBR(m.atualizadoEm);
+}
+
+/* ---------- ações perenes ---------- */
+const CLS = {nucleo:'Núcleo perene', ressalva:'Perene com ressalva', satelite:'Satélite'};
+const CRIT = [['setor','Setor perene'],['escudo','Escudo'],['lucro','Lucro constante'],['divida','Dívida'],['dividendos','Dividendos']];
+const MARK = {sim:['✓','sim'], parcial:['~','parcial'], nao:['✕','não']};
+let filtroCls = 'todas';
+function coCard(c){
+  const pts = CRIT.reduce((s,[k])=>s+(c.filtro?.[k]==='sim'?1:c.filtro?.[k]==='parcial'?.5:0),0);
+  const cl = CLS[c.classe] ? c.classe : 'satelite';
+  const preco = c.preco ? `<span class="note">Preço de referência: <span class="num">R$ ${Number(c.preco).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>${c.precoData?' em '+esc(dataBR(c.precoData)):''}</span>` : '';
+  return `<article class="card co">
+    <div class="top"><div><div class="tk">${esc(c.ticker)}</div><div class="nm">${esc(c.nome)} · ${esc(c.setor)}</div></div><span class="cls ${cl}">${CLS[cl]}</span></div>
+    <div class="checks">${CRIT.map(([k,l])=>{const v=MARK[c.filtro?.[k]]?c.filtro[k]:'nao'; return `<div><span class="mark ${v}" aria-hidden="true">${MARK[v][0]}</span><span>${l}</span><span class="muted">${MARK[v][1]}</span></div>`;}).join('')}</div>
+    <div style="display:flex;align-items:center;gap:8px"><span class="note">Filtro</span><div class="score" aria-label="${pts} de 5">${[0,1,2,3,4].map(i=>`<span style="background:${i<Math.floor(pts)?'var(--good)':(i<pts?'var(--warn)':'')}"></span>`).join('')}</div><span class="note num">${pts.toLocaleString('pt-BR')}/5</span></div>
+    <p style="font-size:.85rem"><b>Escudo:</b> ${esc(c.escudo)}</p>
+    <p class="risk-t"><b>Risco:</b> ${esc(c.risco)}</p>
+    ${preco}
+  </article>`;
+}
+function renderPerenes(){
+  const q = ($('#busca').value||'').trim().toLowerCase();
+  const list = DADOS.empresas.filter(c => (filtroCls==='todas'||c.classe===filtroCls) &&
+    (!q || [c.ticker,c.nome,c.setor].join(' ').toLowerCase().includes(q)));
+  $('#coCards').innerHTML = list.length ? list.map(coCard).join('') :
+    `<div class="card"><p>Nenhuma empresa da lista corresponde a "${esc(q)}".${askReady?' Use a consulta com o Claude abaixo para passá-la pelo filtro.':''}</p></div>`;
+  $('#coNote').textContent = `${list.length} de ${DADOS.empresas.length} empresas. Os tickers ilustram setores e não são recomendação individual.`;
+}
+$('#busca').addEventListener('input', renderPerenes);
+document.querySelectorAll('#filtroCls .fbtn').forEach(b=>b.addEventListener('click',()=>{
+  filtroCls=b.dataset.v;
+  document.querySelectorAll('#filtroCls .fbtn').forEach(x=>x.setAttribute('aria-pressed', x===b));
+  renderPerenes();
+}));
+
+/* ---------- consulta com o Claude (só dentro do Claude) ---------- */
+let askReady = false, sampleFn = null, askCtrl = null;
+function askPrompt(q){
+  const {w} = compute();
+  return `Você é um analista de investimentos que escreve em português do Brasil, de forma simples e direta, para um investidor iniciante.
+Contexto de mercado (${dataBR(DADOS.mercado.atualizadoEm)}): ${DADOS.mercado.resumo} ${DADOS.mercado.itens.map(i=>i.rotulo+': '+i.valor).join('; ')}.
+Filtro de ações perenes usado nesta página (5 perguntas): 1) setor perene; 2) escudo contra concorrentes; 3) lucro constante há 10 anos ou mais; 4) dívida líquida abaixo de 3x EBITDA; 5) dividendos constantes. Classificações: "Núcleo perene", "Perene com ressalva", "Satélite" (no máximo 10–15% das ações).
+Empresas já avaliadas: ${DADOS.empresas.map(c=>c.ticker+' ('+(CLS[c.classe]||c.classe)+')').join(', ')}.
+Carteira do investidor pelo Método ARCA: perfil ${PROFILES[state.perfil].label}, horizonte ${state.horizonte==='medio'?'3 a 5 anos':'5 anos ou mais'}, alocação Ações ${w.A}%, Renda fixa ${w.R}%, Exterior ${w.C}%, FIIs ${w.I}%.
+Pergunta: ${q}
+Se a pergunta for um ticker ou empresa, passe-a pelas 5 perguntas (sim, parcial ou não, com um motivo curto cada), dê a classificação e o principal risco. Seja honesto sobre o que você não sabe com certeza e avise que seus dados podem estar desatualizados. Não use markdown com # ou tabelas; use frases curtas e listas com hífen. Termine lembrando que é conteúdo educacional, não recomendação individual. Máximo de 220 palavras.`;
+}
+async function ask(){
+  const q = $('#askIn').value.trim(); if(!q || !sampleFn) return;
+  const out = $('#askOut'); out.textContent = 'Pensando…';
+  $('#askBtn').disabled = true; $('#askStop').hidden = false;
+  askCtrl = new AbortController();
+  try{
+    await sampleFn(askPrompt(q), {signal:askCtrl.signal, onText:({text})=>{ out.textContent = text; }});
+  }catch(e){
+    const msg = {not_granted:'A consulta não foi autorizada. Ela fica desativada até você recarregar a página.',
+      rate_limited:'Muitas consultas seguidas. Espere um pouco e tente de novo.',
+      cancelled:'Consulta interrompida.'}[e && e.code] || 'Não foi possível consultar agora. Tente de novo em instantes.';
+    out.textContent = (e && e.text ? e.text + '\n\n' : '') + msg;
+    if(e && e.code==='not_granted'){ $('#askBtn').disabled = true; $('#askStop').hidden = true; return; }
+  }
+  $('#askBtn').disabled = false; $('#askStop').hidden = true;
+}
+$('#askBtn').addEventListener('click', ask);
+$('#askStop').addEventListener('click', ()=>askCtrl && askCtrl.abort());
+
+/* ---------- calculadora ---------- */
+const calc = {acoes:650, fiis:150,
+  A:[{t:'TAEE11',v:220,p:''},{t:'ITSA4',v:220,p:''},{t:'VIVT3',v:210,p:''}],
+  F:[{t:'KNCR11',v:150,p:''}]};
+try{ const s = JSON.parse(store.get('arca-calc')||'null'); if(s && s.A) Object.assign(calc, s); }catch(e){}
+const num = s => { if(typeof s==='number') return s; const n =parseFloat(String(s).replace(/\./g,'').replace(',','.')); return isNaN(n)?0:n; };
+const brl2 = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+function refPrice(t){ const c = DADOS.empresas.concat(DADOS.fiis).find(x=>x.ticker===t); return c && c.preco ? Number(c.preco) : 0; }
+function calcRows(kind){
+  const opts = (kind==='A' ? DADOS.empresas : DADOS.fiis).map(c=>c.ticker);
+  const rows = calc[kind];
+  const head = `<div class="calc-row head"><span>Ativo</span><span>Valor (R$)</span><span>Preço (R$)</span><span class="r">Qtd.</span><span class="r">Custo</span><span></span></div>`;
+  return head + rows.map((r,i)=>{
+    const all = opts.includes(r.t) ? opts : [r.t].concat(opts);
+    const ref = refPrice(r.t);
+    return `<div class="calc-row" data-k="${kind}" data-i="${i}">
+      <select aria-label="Ativo" id="c${kind}t${i}" data-f="t">${all.map(o=>`<option ${o===r.t?'selected':''}>${esc(o)}</option>`).join('')}</select>
+      <input type="text" inputmode="decimal" class="money" aria-label="Valor" id="c${kind}v${i}" data-f="v" value="${r.v?String(r.v).replace('.',','):''}">
+      <input type="text" inputmode="decimal" class="money" aria-label="Preço" id="c${kind}p${i}" data-f="p" value="${esc(r.p)}" placeholder="${ref?ref.toLocaleString('pt-BR',{minimumFractionDigits:2}):'preço no app'}">
+      <span class="q" id="c${kind}q${i}">—</span><span class="c" id="c${kind}c${i}">—</span>
+      <button type="button" class="xbtn" aria-label="Remover" data-x="1">×</button></div>`;
+  }).join('');
+}
+function calcUpdate(){
+  let gA=0,gF=0;
+  ['A','F'].forEach(k=>calc[k].forEach((r,i)=>{
+    const p = num(r.p) || refPrice(r.t), v = num(r.v);
+    const q = p>0 ? Math.floor(v/p) : 0, c = q*p;
+    if(k==='A') gA+=c; else gF+=c;
+    const qe = document.getElementById(`c${k}q${i}`), ce = document.getElementById(`c${k}c${i}`);
+    if(qe){ qe.textContent = p>0 ? (k==='A' ? `${q} ${q===1?'ação':'ações'}` : `${q} ${q===1?'cota':'cotas'}`) : '—';
+      ce.textContent = p>0 ? brl2(c) : 'falta preço'; }
+  }));
+  const tA = calc.A.reduce((s,r)=>s+num(r.v),0), tF = calc.F.reduce((s,r)=>s+num(r.v),0);
+  const warn = [];
+  if(Math.abs(tA-calc.acoes)>0.5) warn.push(`a soma das ações (${brl2(tA)}) difere do valor para ações (${brl2(calc.acoes)})`);
+  if(Math.abs(tF-calc.fiis)>0.5) warn.push(`a soma dos FIIs (${brl2(tF)}) difere do valor para FIIs (${brl2(calc.fiis)})`);
+  $('#calcTot').innerHTML = `<span>Gasto em ações: <b>${brl2(gA)}</b></span><span>Gasto em FIIs: <b>${brl2(gF)}</b></span><span>Sobra para o próximo mês: <b>${brl2(Math.max(0,calc.acoes+calc.fiis-gA-gF))}</b></span>` +
+    (warn.length?`<span class="note" style="flex-basis:100%">Atenção: ${warn.join('; ')}. Use "Dividir igualmente" para acertar.</span>`:'');
+  store.set('arca-calc', JSON.stringify(calc));
+}
+function renderCalc(){
+  $('#calcAcoes').value = calc.acoes.toLocaleString('pt-BR');
+  $('#calcFiis').value = calc.fiis.toLocaleString('pt-BR');
+  $('#calcA').innerHTML = calcRows('A'); $('#calcF').innerHTML = calcRows('F');
+  calcUpdate();
+}
+['calcA','calcF'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', e=>{
+    const row = e.target.closest('.calc-row'); if(!row || !e.target.dataset.f) return;
+    calc[row.dataset.k][+row.dataset.i][e.target.dataset.f] = e.target.value;
+    if(e.target.dataset.f==='t'){ renderCalc(); } else calcUpdate();
+  });
+  el.addEventListener('change', e=>{
+    const row = e.target.closest('.calc-row'); if(!row || e.target.dataset.f!=='t') return;
+    calc[row.dataset.k][+row.dataset.i].t = e.target.value; renderCalc();
+  });
+  el.addEventListener('click', e=>{
+    if(!e.target.dataset.x) return; const row = e.target.closest('.calc-row');
+    calc[row.dataset.k].splice(+row.dataset.i,1); renderCalc();
+  });
+});
+function dividir(){
+  ['A','F'].forEach(k=>{ const tot = k==='A'?calc.acoes:calc.fiis, n = calc[k].length||1;
+    const base = Math.floor(tot/n*100)/100;
+    calc[k].forEach((r,i)=>{ r.v = i===n-1 ? Math.round((tot-base*(n-1))*100)/100 : base; }); });
+  renderCalc();
+}
+$('#calcDividir').addEventListener('click', dividir);
+$('#calcAcoes').addEventListener('input', e=>{ calc.acoes = parseMoney(e.target.value); e.target.value = calc.acoes ? calc.acoes.toLocaleString('pt-BR') : ''; calcUpdate(); });
+$('#calcFiis').addEventListener('input', e=>{ calc.fiis = parseMoney(e.target.value); e.target.value = calc.fiis ? calc.fiis.toLocaleString('pt-BR') : ''; calcUpdate(); });
+$('#addA').addEventListener('click', ()=>{ const used = calc.A.map(r=>r.t); const nx = DADOS.empresas.find(c=>!used.includes(c.ticker)&&c.classe!=='satelite'); calc.A.push({t:nx?nx.ticker:DADOS.empresas[0].ticker, v:0, p:''}); renderCalc(); });
+$('#addF').addEventListener('click', ()=>{ const used = calc.F.map(r=>r.t); const nx = DADOS.fiis.find(c=>!used.includes(c.ticker)); calc.F.push({t:nx?nx.ticker:DADOS.fiis[0].ticker, v:0, p:''}); renderCalc(); });
 
 /* ---------- modelo de alocação ---------- */
 const PILLARS = [
@@ -780,7 +1183,7 @@ $('#objetivo').addEventListener('change',e=>{state.objetivo=e.target.value; onCh
 });
 
 /* ---------- abas ---------- */
-const TABS = ['panorama','valuation','cenario','diagnostico','alocacao','riscos','plano','fontes'];
+const TABS = ['panorama','valuation','cenario','diagnostico','alocacao','perenes','calculadora','comoinvestir','riscos','plano','fontes'];
 function show(name){
   if(!TABS.includes(name)) name='panorama';
   current = name;
@@ -810,8 +1213,56 @@ new MutationObserver(rethemed).observe(document.documentElement,{attributes:true
 
 renderScenHtml();
 syncControls();
+renderMercado();
+renderPerenes();
+renderCalc();
 const start = location.hash.slice(1) || store.get('arca-tab') || 'panorama';
 show(start);
+
+/* fora do Claude (site hospedado): lê dados.json publicado ao lado da página, se existir */
+function aplicarDados(d){
+  if(!d) return;
+  if(d.mercado && Array.isArray(d.mercado.itens) && d.mercado.itens.length){ DADOS.mercado = {...EMBUTIDO.mercado, ...d.mercado}; DADOS.aoVivo = true; }
+  const rank = {nucleo:0, ressalva:1, satelite:2};
+  const acoes = (d.empresas||[]).filter(c=>c && c.ticker && c.tipo!=='fii').sort((a,b)=>((rank[a.classe]??3)-(rank[b.classe]??3)) || String(a.ticker).localeCompare(b.ticker));
+  const fiis = (d.empresas||[]).filter(c=>c && c.ticker && c.tipo==='fii');
+  if(acoes.length) DADOS.empresas = acoes;
+  if(fiis.length) DADOS.fiis = fiis;
+  renderMercado(); renderPerenes(); renderCalc();
+}
+function carregarJson(){
+  if(location.protocol!=='http:' && location.protocol!=='https:') return;
+  fetch('dados.json', {cache:'no-store'}).then(r=>r.ok ? r.json() : null).then(aplicarDados).catch(()=>{});
+}
+
+/* dados vivos e consulta: só existem quando a página abre dentro do Claude */
+const cl = window.claude && typeof window.claude.use === 'function' ? window.claude : null;
+if(!cl) carregarJson();
+if(cl){
+  cl.use('db').then(db=>{
+    if(!db){ carregarJson(); return; }
+    db.doc('painel/mercado').onSnapshot(snap=>{
+      const d = snap.exists ? snap.data() : null;
+      if(d && Array.isArray(d.itens) && d.itens.length){
+        DADOS.mercado = {...EMBUTIDO.mercado, ...d}; DADOS.aoVivo = true; renderMercado();
+      }
+    }, ()=>{});
+    db.collection('empresas').onSnapshot(snap=>{
+      if(snap.empty) return;
+      const docs = snap.docs.map(x=>x.data()).filter(c=>c && c.ticker);
+      const fiis = docs.filter(c=>c.tipo==='fii'), acoes = docs.filter(c=>c.tipo!=='fii');
+      const rank = {nucleo:0, ressalva:1, satelite:2};
+      acoes.sort((a,b)=>((rank[a.classe]??3)-(rank[b.classe]??3)) || String(a.ticker).localeCompare(b.ticker));
+      if(acoes.length) DADOS.empresas = acoes;
+      if(fiis.length) DADOS.fiis = fiis;
+      renderPerenes(); renderCalc();
+    }, ()=>{});
+  }).catch(()=>{});
+  cl.use('sample').then(s=>{
+    if(!s) return;
+    sampleFn = s; askReady = true; $('#askCard').hidden = false; renderPerenes();
+  }).catch(()=>{});
+}
 })();
 </script>
 

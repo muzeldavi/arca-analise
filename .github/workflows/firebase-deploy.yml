@@ -1,0 +1,24 @@
+name: Publicar no Firebase
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TEM_CHAVE: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Avisar que falta a chave do Firebase
+        if: env.TEM_CHAVE != 'true'
+        run: echo "::warning::Crie o secret FIREBASE_SERVICE_ACCOUNT para publicar automaticamente."
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        if: env.TEM_CHAVE == 'true'
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: arca-analise
+          channelId: live

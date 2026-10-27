@@ -1,0 +1,263 @@
+{
+  "mercado": {
+    "atualizadoEm": "2026-10-27",
+    "resumo": "Lula foi reeleito com 51,8% dos votos. O Ibovespa caiu 13,9% no dia seguinte e o dólar subiu 8%. Aqui você encontra valuation, cenários, ações perenes e uma alocação que se ajusta ao seu perfil.",
+    "itens": [
+      {
+        "rotulo": "Ibovespa",
+        "valor": "177,8 mil",
+        "nota": "fech. 26/10: 176.608 (−13,88%)",
+        "tom": "down"
+      },
+      {
+        "rotulo": "Dólar à vista",
+        "valor": "R$ 5,33",
+        "nota": "fech. 26/10: R$ 5,40 (+8,2%)",
+        "tom": "up"
+      },
+      {
+        "rotulo": "Selic",
+        "valor": "13,75%",
+        "nota": "curva já precifica alta",
+        "tom": "flat"
+      },
+      {
+        "rotulo": "Risco-país",
+        "valor": "151,6 pts",
+        "nota": "+26% em 26/10",
+        "tom": "down"
+      },
+      {
+        "rotulo": "IPCA-15 · 12 meses",
+        "valor": "4,47%",
+        "nota": "setembro de 2026",
+        "tom": "flat"
+      }
+    ],
+    "fonte": "Retrato inicial de 27/10/2026"
+  },
+  "empresas": [
+    {
+      "ticker": "BBAS3",
+      "nome": "Banco do Brasil",
+      "setor": "Banco",
+      "classe": "satelite",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "parcial",
+        "divida": "sim",
+        "dividendos": "parcial"
+      },
+      "escudo": "Tamanho, folha de pagamento do governo e crédito agrícola",
+      "risco": "Estatal: pode ser usado para emprestar barato; inadimplência no agro pesou desde 2025"
+    },
+    {
+      "ticker": "BBSE3",
+      "nome": "BB Seguridade",
+      "setor": "Seguros",
+      "classe": "ressalva",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "sim",
+        "dividendos": "sim"
+      },
+      "escudo": "Vende seguros pela rede de agências do Banco do Brasil",
+      "risco": "Controlada pelo Banco do Brasil, portanto estatal indireta"
+    },
+    {
+      "ticker": "CPFE3",
+      "nome": "CPFL Energia",
+      "setor": "Distribuição e geração de energia",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "parcial",
+        "dividendos": "sim"
+      },
+      "escudo": "Concessões de distribuição em regiões ricas de SP e RS",
+      "risco": "Renovação das concessões de distribuição; controle chinês (State Grid)"
+    },
+    {
+      "ticker": "CPTS11",
+      "nome": "Capitânia Securities",
+      "tipo": "fii",
+      "categoria": "Papel"
+    },
+    {
+      "ticker": "EGIE3",
+      "nome": "Engie Brasil",
+      "setor": "Geração de energia",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "parcial",
+        "dividendos": "sim"
+      },
+      "escudo": "Usinas com contratos longos de venda de energia",
+      "risco": "Dívida subiu com investimentos em transmissão; risco hidrológico"
+    },
+    {
+      "ticker": "HGLG11",
+      "nome": "CSHG Logística",
+      "tipo": "fii",
+      "categoria": "Tijolo (logística)"
+    },
+    {
+      "ticker": "ITSA4",
+      "nome": "Itaúsa",
+      "setor": "Banco (holding do Itaú)",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "sim",
+        "dividendos": "sim"
+      },
+      "escudo": "Controla o maior banco privado do país, com lucro há décadas",
+      "risco": "Bancos oscilam mais com crise de crédito e juros altos"
+    },
+    {
+      "ticker": "ITUB4",
+      "nome": "Itaú Unibanco",
+      "setor": "Banco",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "sim",
+        "dividendos": "sim"
+      },
+      "escudo": "Escala, marca e base de clientes de alta renda",
+      "risco": "Caiu forte com a reeleição; sensível a inadimplência"
+    },
+    {
+      "ticker": "KNCR11",
+      "nome": "Kinea Rendimentos",
+      "tipo": "fii",
+      "categoria": "Papel (CDI)"
+    },
+    {
+      "ticker": "KNIP11",
+      "nome": "Kinea Índices de Preços",
+      "tipo": "fii",
+      "categoria": "Papel (IPCA)"
+    },
+    {
+      "ticker": "PETR4",
+      "nome": "Petrobras",
+      "setor": "Petróleo",
+      "classe": "satelite",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "parcial",
+        "escudo": "sim",
+        "lucro": "nao",
+        "divida": "parcial",
+        "dividendos": "nao"
+      },
+      "escudo": "Pré-sal com custo de extração baixo",
+      "risco": "Estatal e commodity: prejuízos em 2014–15 e 2020; política de preços e dividendos muda com o governo"
+    },
+    {
+      "ticker": "SAPR11",
+      "nome": "Sanepar",
+      "setor": "Saneamento",
+      "classe": "ressalva",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "sim",
+        "dividendos": "parcial"
+      },
+      "escudo": "Monopólio natural da rede de água e esgoto no Paraná",
+      "risco": "Estatal estadual: reajustes de tarifa dependem do governo"
+    },
+    {
+      "ticker": "SBSP3",
+      "nome": "Sabesp",
+      "setor": "Saneamento",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "parcial",
+        "dividendos": "parcial"
+      },
+      "escudo": "Monopólio natural da rede de água e esgoto em São Paulo",
+      "risco": "Privatizada em 2024; investimentos altos até 2029 limitam dividendos"
+    },
+    {
+      "ticker": "TAEE11",
+      "nome": "Taesa",
+      "setor": "Transmissão de energia",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "parcial",
+        "dividendos": "sim"
+      },
+      "escudo": "Contratos de concessão de 30 anos com receita corrigida pela inflação",
+      "risco": "Dívida alta para financiar novos projetos; controle compartilhado entre Cemig (estatal mineira) e ISA"
+    },
+    {
+      "ticker": "VALE3",
+      "nome": "Vale",
+      "setor": "Mineração",
+      "classe": "satelite",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "parcial",
+        "escudo": "sim",
+        "lucro": "parcial",
+        "divida": "sim",
+        "dividendos": "parcial"
+      },
+      "escudo": "Minério de ferro de alta qualidade e custo baixo",
+      "risco": "Commodity: lucro depende da China; histórico de desastres (Mariana, Brumadinho)"
+    },
+    {
+      "ticker": "VIVT3",
+      "nome": "Vivo (Telefônica Brasil)",
+      "setor": "Telecom",
+      "classe": "nucleo",
+      "tipo": "acao",
+      "filtro": {
+        "setor": "sim",
+        "escudo": "sim",
+        "lucro": "sim",
+        "divida": "sim",
+        "dividendos": "sim"
+      },
+      "escudo": "Maior rede de fibra e celular do país; caro de replicar",
+      "risco": "Crescimento lento; concorrência em preço no móvel"
+    },
+    {
+      "ticker": "XPML11",
+      "nome": "XP Malls",
+      "tipo": "fii",
+      "categoria": "Tijolo (shoppings)"
+    }
+  ]
+}
