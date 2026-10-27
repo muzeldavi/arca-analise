@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Carta ARCA pós-eleição</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: relatório de research — faixa de cabeçalho com cotações, trilho de abas fixo, cada aba em coluna única; a aba Alocação é painel de controles + resultados */
+:root{
+  --bg:#f2f5f4; --surface:#ffffff; --surface-2:#e8eeec; --ink:#12201c; --ink-2:#44524d; --muted:#67756f; --line:#d3dcd8;
+  --accent:#0b5d6e; --accent-ink:#ffffff; --accent-soft:#d6e9ed;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --neutral:#a9b3af;
+  --pos:#2a78d6; --neg:#e34948;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1413; --surface:#161f1d; --surface-2:#1f2a27; --ink:#edf2f0; --ink-2:#bac5c1; --muted:#8d9a95; --line:#2b3835;
+    --accent:#62b8c9; --accent-ink:#081a1e; --accent-soft:#143840;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --neutral:#5b6662;
+    --pos:#3987e5; --neg:#e66767; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1413; --surface:#161f1d; --surface-2:#1f2a27; --ink:#edf2f0; --ink-2:#bac5c1; --muted:#8d9a95; --line:#2b3835;
+  --accent:#62b8c9; --accent-ink:#081a1e; --accent-soft:#143840;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --neutral:#5b6662;
+  --pos:#3987e5; --neg:#e66767; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:700;line-height:1.1}
+h2{font-size:1.45rem;font-weight:700;line-height:1.2}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600}
+.lead{color:var(--ink-2);max-width:68ch}
+.muted{color:var(--muted)}
+
+/* header */
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:28px 22px;display:grid;gap:18px}
+.title-row{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+.title-row .meta{display:flex;flex-direction:column;gap:6px;min-width:0}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:.75rem;font-weight:600;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--crit)}
+.tape{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tick{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tick .v{font-family:var(--f-mono);font-size:1.15rem;font-weight:500;font-variant-numeric:tabular-nums}
+.tick .d{font-family:var(--f-mono);font-size:.78rem}
+.up{color:var(--good)} .down{color:var(--crit)}
+.d.flat{color:var(--muted)}
+
+/* tabs */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:0;background:none;font:inherit;font-weight:500;color:var(--muted);padding:13px 12px 11px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tab .pill{font-size:.68rem;background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+
+main .wrap{padding-block:28px 64px}
+section.panel{display:grid;gap:28px}
+.block{display:grid;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.chart{position:relative;width:100%}
+.note{font-size:.8rem;color:var(--muted)}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 16px;border-radius:0 var(--r) var(--r) 0;color:var(--ink)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.chip i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+ul.clean li::marker{color:var(--muted)}
+
+/* scenario */
+.scen{display:grid;gap:10px}
+.prob{display:flex;height:34px;border-radius:8px;overflow:hidden;gap:2px;background:var(--surface)}
+.prob div{display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600;color:#fff;min-width:0;white-space:nowrap}
+
+/* diagnóstico scale */
+.scale{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,var(--neg),var(--neutral) 50%,var(--pos))}
+.scale .mk{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;background:var(--surface);border:3px solid var(--ink);transform:translate(-50%,-50%)}
+.scale-l{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+
+/* alocação controls */
+.alloc{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.alloc{grid-template-columns:1fr}}
+.controls{display:grid;gap:18px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (max-width:860px){.controls{position:static}}
+.field{display:grid;gap:7px}
+.field label,.field .lbl{font-size:.78rem;font-weight:600;color:var(--ink-2)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface-2);border-radius:9px;padding:3px;gap:3px}
+.seg button{appearance:none;border:0;background:none;font:inherit;font-size:.85rem;font-weight:500;padding:8px 4px;border-radius:7px;color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12);font-weight:600}
+.seg.two{grid-template-columns:repeat(2,1fr)}
+select,input[type="text"]{font:inherit;font-size:.9rem;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:100%}
+input.money{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.adj{font-size:.8rem;color:var(--ink-2);display:grid;gap:4px}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px}
+.pillar{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:6px;min-width:0}
+.pillar .k{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.9rem}
+.pillar .letter{font-family:var(--f-display);font-weight:700;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:.95rem;flex:none}
+.pillar .pct{font-family:var(--f-display);font-size:2rem;font-weight:700;line-height:1}
+.pillar .delta{font-family:var(--f-mono);font-size:.78rem}
+.pillar .brl{font-family:var(--f-mono);font-size:.85rem;color:var(--ink-2)}
+.vs{display:grid;gap:10px}
+.vs-row{display:grid;grid-template-columns:110px 1fr 46px;gap:10px;align-items:center;font-size:.85rem}
+.vs-track{position:relative;height:12px;background:var(--surface-2);border-radius:4px}
+.vs-bar{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0}
+.vs-ref{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.sub-tbl td:first-child{white-space:nowrap}
+
+/* risks & plan */
+.risk{display:grid;gap:10px}
+.risk .head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.sev{display:flex;gap:3px}
+.sev span{width:16px;height:6px;border-radius:2px;background:var(--surface-2)}
+.timeline{display:grid;gap:0;border-left:2px solid var(--line);margin-left:8px}
+.step{position:relative;padding:0 0 22px 22px;display:grid;gap:6px}
+.step::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.step:last-child{padding-bottom:0}
+.step .when{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:500}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.rule .n{font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--accent);line-height:1.2}
+footer{border-top:1px solid var(--line)}
+footer .wrap{padding-block:20px;font-size:.78rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.panel{animation:fade .25s ease}}
+@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="title-row">
+      <div class="meta">
+        <span class="eyebrow">Análise B3 · Método ARCA · 27 de outubro de 2026</span>
+        <h1>Carta ARCA pós-eleição</h1>
+        <p class="lead">Lula foi reeleito com 51,8% dos votos. O Ibovespa caiu 13,9% no dia seguinte e o dólar subiu 8%. Abaixo, valuation, cenários e uma alocação que se ajusta ao seu perfil.</p>
+      </div>
+      <span class="badge"><span class="dot"></span>Volatilidade alta · circuit breaker em 26/10</span>
+    </div>
+    <div class="tape" aria-label="Cotações">
+      <div class="tick"><span class="eyebrow">Ibovespa</span><span class="v">177,8 mil</span><span class="d down">fech. 26/10: 176.608 (−13,88%)</span></div>
+      <div class="tick"><span class="eyebrow">Dólar à vista</span><span class="v">R$ 5,33</span><span class="d up">fech. 26/10: R$ 5,40 (+8,2%)</span></div>
+      <div class="tick"><span class="eyebrow">Selic</span><span class="v">13,75%</span><span class="d flat">curva já precifica alta</span></div>
+      <div class="tick"><span class="eyebrow">Risco-país</span><span class="v">151,6 pts</span><span class="d down">+26% em 26/10</span></div>
+      <div class="tick"><span class="eyebrow">IPCA-15 · 12 meses</span><span class="v">4,47%</span><span class="d flat">setembro de 2026</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Seções">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" data-tab="panorama" id="t-panorama">Panorama</button>
+    <button class="tab" role="tab" data-tab="valuation" id="t-valuation">Valuation e histórico</button>
+    <button class="tab" role="tab" data-tab="cenario" id="t-cenario">Cenários</button>
+    <button class="tab" role="tab" data-tab="diagnostico" id="t-diagnostico">Diagnóstico</button>
+    <button class="tab" role="tab" data-tab="alocacao" id="t-alocacao">Alocação ARCA<span class="pill" id="tabProfile">Moderado</span></button>
+    <button class="tab" role="tab" data-tab="riscos" id="t-riscos">Riscos</button>
+    <button class="tab" role="tab" data-tab="plano" id="t-plano">Plano de ação</button>
+    <button class="tab" role="tab" data-tab="fontes" id="t-fontes">Fontes</button>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+<!-- PANORAMA -->
+<section class="panel" id="panorama" role="tabpanel" aria-labelledby="t-panorama">
+  <div class="block">
+    <span class="eyebrow">O que mudou em 48 horas</span>
+    <h2>O mercado tinha precificado outro resultado</h2>
+    <p class="lead">Depois do 1º turno a bolsa subiu mais de 4%, porque o mercado passou a apostar em alternância de poder. A vitória de Lula por 3,6 pontos desfez esse rali e foi além. Em um único dia, a queda superou o Joesley Day (−8,8% em 2017). Na história recente, só os circuit breakers da Covid em 2020 se comparam.</p>
+  </div>
+  <div class="grid2">
+    <div class="card block">
+      <h3>Reação em 26/10, variação no dia</h3>
+      <div class="chart" style="height:240px"><canvas id="cMove" aria-label="Variação dos ativos em 26 de outubro"></canvas></div>
+      <p class="note">EWZ: mínima intradia do ETF de Brasil em Nova York. Barras azuis indicam alta e vermelhas, queda.</p>
+    </div>
+    <div class="card block">
+      <h3>Antes e depois do 2º turno</h3>
+      <div class="tbl-wrap" style="border:0">
+      <table>
+        <thead><tr><th>Indicador</th><th class="r">Antes</th><th class="r">26/10</th><th class="r">27/10</th></tr></thead>
+        <tbody>
+          <tr><td>Ibovespa</td><td class="r num">208,3 mil¹</td><td class="r num">176,6 mil</td><td class="r num">~177,8 mil</td></tr>
+          <tr><td>Dólar à vista</td><td class="r num">~R$ 5,00</td><td class="r num">R$ 5,40</td><td class="r num">~R$ 5,33</td></tr>
+          <tr><td>Risco-país</td><td class="r num">~120</td><td class="r num">151,6</td><td class="r num">—</td></tr>
+          <tr><td>Selic</td><td class="r num">13,75%</td><td class="r num">13,75%</td><td class="r num">13,75%</td></tr>
+          <tr><td>Curva DI</td><td class="r">cortes</td><td class="r">alta forte</td><td class="r">recuo parcial</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note">¹ Fechamento de 20/10 (Genial). O Tesouro cancelou os leilões de prefixados e IPCA+ da semana e voltou a atuar em 27/10.</p>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card block"><span class="eyebrow">Política monetária</span><p>A Selic está em <b>13,75%</b> depois do corte de setembro. O Focus via 13,25% no fim do ano. Agora a curva precifica <b>alta em novembro</b>, ou no mínimo uma pausa longa.</p></div>
+    <div class="card block"><span class="eyebrow">Inflação</span><p>O IPCA-15 acumula <b>4,47%</b> em 12 meses, acima do centro da meta de 3%. O dólar 8% mais caro deve se refletir na inflação de 2027. O juro real ex-post fica perto de 9%.</p></div>
+    <div class="card block"><span class="eyebrow">Fiscal</span><p>O Prisma prevê <b>déficit de R$ 53 bi</b> em 2026 e dívida bruta de <b>83,4% do PIB</b> em 2026 e <b>87%</b> em 2027. A meta é superávit de 0,25% do PIB, e o mercado não acredita nela sem deduções.</p></div>
+  </div>
+</section>
+
+<!-- VALUATION -->
+<section class="panel" id="valuation" role="tabpanel" aria-labelledby="t-valuation" hidden>
+  <div class="block">
+    <span class="eyebrow">A · Valuation e histórico</span>
+    <h2>Barata em termos absolutos, mas já estava barata antes</h2>
+    <p class="lead">O Ibovespa negocia abaixo da média de P/L desde 2021. O desconto existe porque o juro real alto concorre com as ações. O múltiplo só sobe de forma sustentável se o juro longo cair.</p>
+  </div>
+  <div class="grid3">
+    <div class="card block"><h3>P/L projetado</h3><div class="chart" style="height:150px"><canvas id="cPL"></canvas></div><p class="note">~8,7x hoje contra ~10,5–11x na média: desconto de 15–20%.</p></div>
+    <div class="card block"><h3>Preço / Valor Patrimonial</h3><div class="chart" style="height:150px"><canvas id="cPVP"></canvas></div><p class="note">~1,3–1,4x hoje contra ~1,6–1,7x na média.</p></div>
+    <div class="card block"><h3>Dividend Yield (%)</h3><div class="chart" style="height:150px"><canvas id="cDY"></canvas></div><p class="note">~7–8% hoje contra ~4,5–5,5% na média.</p></div>
+  </div>
+  <div class="callout"><b>Como estimei os múltiplos:</b> o Inter usava P/L de 9,5x para chegar a 193 mil pontos. Aplicando a queda até 176,6 mil, o múltiplo fica perto de 8,7x. O prêmio de risco (earnings yield de ~11,5% menos juro real de ~7,5%) fica perto de 4 p.p., dentro da faixa histórica de 3–5 p.p. Os números são estimativas: confira na Economatica ou no seu home broker antes de decidir.</div>
+
+  <div class="grid2">
+    <div class="card block">
+      <h3>Ibovespa no ano seguinte a cada eleição</h3>
+      <div class="chart" style="height:260px"><canvas id="cHist"></canvas></div>
+      <p class="note">Retorno anual do índice no ano seguinte à eleição presidencial.</p>
+    </div>
+    <div class="card block">
+      <h3>O que decidiu cada episódio</h3>
+      <div class="tbl-wrap" style="border:0">
+      <table>
+        <thead><tr><th>Episódio</th><th>Reação</th><th>Lição</th></tr></thead>
+        <tbody>
+          <tr><td><b>2002</b> · Lula 1</td><td>Dólar perto de R$ 4, risco-país acima de 2.000</td><td>Pânico seguido de sinalização ortodoxa: melhor ponto de compra da década</td></tr>
+          <tr><td><b>2014</b> · Dilma 2</td><td>−2,8% no dia</td><td>Sem ajuste fiscal crível, o barato ficou mais barato</td></tr>
+          <tr><td><b>2017</b> · Joesley Day</td><td>−8,8% no dia</td><td>Recuperou a queda em cerca de 2 meses</td></tr>
+          <tr><td><b>2018</b> · Bolsonaro</td><td>Rali antes da eleição</td><td>A reforma da Previdência sustentou a alta</td></tr>
+          <tr><td><b>2022</b> · Lula 3</td><td>Queda em nov/dez (PEC da Transição)</td><td>O ruído passou com o novo arcabouço fiscal</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <div class="callout"><b>Padrão:</b> a queda imediata raramente é o fundo definitivo, e também não marca o começo de uma tragédia. O que decide os 12 meses seguintes é a sinalização fiscal dos primeiros 60–90 dias: equipe econômica, Orçamento de 2027 e cumprimento da meta.</div>
+</section>
+
+<!-- CENÁRIOS -->
+<section class="panel" id="cenario" role="tabpanel" aria-labelledby="t-cenario" hidden>
+  <div class="block">
+    <span class="eyebrow">B · Cenário econômico e político</span>
+    <h2>Três caminhos para os próximos 6 a 12 meses</h2>
+    <p class="lead">Câmbio, curva longa e ações domésticas sobem ou caem juntos quando o risco é político. Por isso diversificar só dentro do Brasil protege pouco neste momento.</p>
+  </div>
+  <div class="card scen">
+    <h3>Probabilidades subjetivas</h3>
+    <div class="prob" id="probBar"></div>
+  </div>
+  <div class="grid2">
+    <div class="card block"><h3>Ibovespa por cenário (mil pontos)</h3><div class="chart" style="height:220px"><canvas id="cScenIbov"></canvas></div><p class="note">A linha vertical marca o nível de 27/10 (~177,8 mil).</p></div>
+    <div class="card block"><h3>Dólar por cenário (R$)</h3><div class="chart" style="height:220px"><canvas id="cScenUsd"></canvas></div><p class="note">A linha vertical marca o nível de 27/10 (~R$ 5,33).</p></div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Cenário</th><th class="r">Prob.</th><th>Gatilho</th><th>Juros longos</th></tr></thead>
+      <tbody id="scenTbl"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section class="panel" id="diagnostico" role="tabpanel" aria-labelledby="t-diagnostico" hidden>
+  <div class="block">
+    <span class="eyebrow">C · Vale a pena investir agora?</span>
+    <h2>Acumular aos poucos, sem aporte único e sem ficar parado</h2>
+  </div>
+  <div class="card block">
+    <div class="scale" role="img" aria-label="Posição do diagnóstico: entre neutro e acumular"><span class="mk" style="left:64%"></span></div>
+    <div class="scale-l"><span>Cautela total</span><span>Neutro</span><span>Acumular com força</span></div>
+    <p>O diagnóstico fica um pouco acima do neutro. O preço já embute boa parte do cenário pessimista, mas os próximos 60 dias (equipe econômica e Copom) ainda trazem incerteza real.</p>
+  </div>
+  <div class="grid2">
+    <div class="card block">
+      <h3><span class="chip" style="border-color:var(--pos)"><i style="background:var(--pos)"></i>A favor</span></h3>
+      <ul class="clean">
+        <li>P/L perto de 8,7x, cerca de 20% abaixo da média, com DY de 7–8%</li>
+        <li>Pânicos de um dia, como em 2002 e 2017, costumam ter reversão parcial</li>
+        <li>Investidor estrangeiro ainda posicionado e com caixa</li>
+        <li>Exportadoras se beneficiam do dólar a R$ 5,40</li>
+      </ul>
+    </div>
+    <div class="card block">
+      <h3><span class="chip" style="border-color:var(--neg)"><i style="background:var(--neg)"></i>Contra</span></h3>
+      <ul class="clean">
+        <li>Juro real acima de 7% no IPCA+ concorre com as ações</li>
+        <li>Possível alta da Selic, que pesa sobre as cíclicas</li>
+        <li>Revisão de lucros para baixo se juro e câmbio ficarem altos</li>
+        <li>Sem âncora fiscal, o caso de 2014 pode se repetir</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card block"><span class="eyebrow">Não é hora de</span><h3>Aporte único em ações</h3><p class="muted">A volatilidade vai continuar até a definição da equipe econômica e das próximas reuniões do Copom.</p></div>
+    <div class="card block"><span class="eyebrow">Também não é hora de</span><h3>Vender em pânico</h3><p class="muted">Quem vendeu em 2002 ou 2017 perdeu a recuperação.</p></div>
+    <div class="card block"><span class="eyebrow">Aproveite</span><h3>IPCA+ acima de 7% de juro real</h3><p class="muted">Estava abaixo de 7% no início de outubro e voltou a subir com força. Taxas assim são historicamente raras.</p></div>
+    <div class="card block"><span class="eyebrow">Cuidado com</span><h3>Comprar todo o dólar no pico</h3><p class="muted">A moeda já subiu 8%. Monte a posição em parcelas mensais.</p></div>
+  </div>
+</section>
+
+<!-- ALOCAÇÃO -->
+<section class="panel" id="alocacao" role="tabpanel" aria-labelledby="t-alocacao" hidden>
+  <div class="block">
+    <span class="eyebrow">D · Alocação estratégica pelo Método ARCA</span>
+    <h2>Monte a carteira para o seu perfil</h2>
+    <p class="lead">Mude perfil, horizonte, objetivo e valores. Os percentuais, os valores em reais e o cronograma de entrada se recalculam na hora.</p>
+  </div>
+  <div class="alloc">
+    <div class="card controls">
+      <div class="field"><span class="lbl" id="lblPerfil">Perfil de risco</span>
+        <div class="seg" role="group" aria-labelledby="lblPerfil" id="segPerfil">
+          <button type="button" data-v="conservador" id="p-cons">Conservador</button>
+          <button type="button" data-v="moderado" id="p-mod">Moderado</button>
+          <button type="button" data-v="arrojado" id="p-arr">Arrojado</button>
+        </div>
+      </div>
+      <div class="field"><span class="lbl" id="lblHor">Horizonte</span>
+        <div class="seg two" role="group" aria-labelledby="lblHor" id="segHor">
+          <button type="button" data-v="medio" id="h-med">3 a 5 anos</button>
+          <button type="button" data-v="longo" id="h-lon">5 anos ou mais</button>
+        </div>
+      </div>
+      <div class="field"><label for="objetivo">Objetivo principal</label>
+        <select id="objetivo">
+          <option value="patrimonio">Construção de patrimônio</option>
+          <option value="renda">Renda passiva (dividendos)</option>
+          <option value="inflacao">Proteção contra inflação</option>
+        </select>
+      </div>
+      <div class="field"><label for="inicial">Aporte inicial (R$)</label><input type="text" inputmode="numeric" class="money" id="inicial" value="100.000"></div>
+      <div class="field"><label for="mensal">Aporte mensal (R$)</label><input type="text" inputmode="numeric" class="money" id="mensal" value="3.000"></div>
+      <div class="adj" id="adjList"></div>
+      <p class="note">Os valores iniciais são um exemplo. Digite os seus.</p>
+    </div>
+
+    <div style="display:grid;gap:18px;min-width:0">
+      <div class="pillars" id="pillars"></div>
+      <div class="grid2">
+        <div class="card block">
+          <h3>Distribuição sugerida</h3>
+          <div class="chart" style="height:250px"><canvas id="cDonut" aria-label="Distribuição entre os quatro pilares"></canvas></div>
+        </div>
+        <div class="card block">
+          <h3>Sugerido contra o padrão de 25%</h3>
+          <div class="vs" id="vsBars"></div>
+          <p class="note">A linha preta marca os 25% do padrão ARCA.</p>
+        </div>
+      </div>
+      <div class="card block">
+        <h3>Dentro de cada pilar</h3>
+        <div class="tbl-wrap" style="border:0">
+          <table class="sub-tbl">
+            <thead><tr><th>Bloco</th><th class="r">% do pilar</th><th class="r">% total</th><th class="r">Valor inicial</th><th>Exemplos e função</th></tr></thead>
+            <tbody id="subTbl"></tbody>
+          </table>
+        </div>
+        <p class="note">Os tickers ilustram setores e não são recomendação individual.</p>
+      </div>
+      <div class="card block">
+        <h3>Cronograma de entrada: carteira acumulada mês a mês</h3>
+        <p class="muted" id="dcaSummary"></p>
+        <div class="chart" style="height:300px"><canvas id="cDca" aria-label="Carteira acumulada por pilar ao longo de 6 meses"></canvas></div>
+        <p class="note">A parte cinza é a munição: dinheiro do aporte inicial que espera no Tesouro Selic até a parcela seguinte. Os aportes mensais são divididos pelos percentuais-alvo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISCOS -->
+<section class="panel" id="riscos" role="tabpanel" aria-labelledby="t-riscos" hidden>
+  <div class="block">
+    <span class="eyebrow">3 principais riscos a monitorar</span>
+    <h2>O que pode mudar a tese nos próximos meses</h2>
+  </div>
+  <div class="grid3">
+    <div class="card risk">
+      <div class="head"><span class="chip"><i style="background:var(--crit)"></i>Crítico · 30–90 dias</span><div class="sev" aria-label="Severidade 4 de 4"><span style="background:var(--crit)"></span><span style="background:var(--crit)"></span><span style="background:var(--crit)"></span><span style="background:var(--crit)"></span></div></div>
+      <h3>Sinalização fiscal do novo mandato</h3>
+      <p class="muted">Quem fica na Fazenda, a votação do Orçamento de 2027, propostas de mudar o arcabouço ou ampliar exceções à meta, e a dívida rumo a 87% do PIB.</p>
+      <p><b>Desfecho bom:</b> uma Fazenda crível pode reverter boa parte da queda, como em 2002.<br><b>Desfecho ruim:</b> expansão de gastos e repetição de 2014–15.</p>
+    </div>
+    <div class="card risk">
+      <div class="head"><span class="chip"><i style="background:var(--serious)"></i>Alto · nov–dez</span><div class="sev" aria-label="Severidade 3 de 4"><span style="background:var(--serious)"></span><span style="background:var(--serious)"></span><span style="background:var(--serious)"></span><span></span></div></div>
+      <h3>Copom e o risco de alta da Selic</h3>
+      <p class="muted">A curva já precifica alta. Acompanhe o Focus para 2027 e o tom das atas.</p>
+      <p><b>Se subir:</b> o choque nas cíclicas e nos FIIs de tijolo continua.<br><b>Se parecer leniente:</b> as expectativas de inflação podem se desancorar e o dólar subir mais.</p>
+    </div>
+    <div class="card risk">
+      <div class="head"><span class="chip"><i style="background:var(--warn)"></i>Moderado · contínuo</span><div class="sev" aria-label="Severidade 2 de 4"><span style="background:var(--warn)"></span><span style="background:var(--warn)"></span><span></span><span></span></div></div>
+      <h3>Cenário externo: Fed, Treasuries e China</h3>
+      <p class="muted">Treasury de 10 anos alto ou dólar global forte agravam a saída de capital de emergentes.</p>
+      <p><b>China:</b> uma desaceleração derruba Vale e o minério, justamente o hedge cambial dentro do Ibovespa.<br><b>EUA:</b> a política de tarifas também pesa.</p>
+    </div>
+  </div>
+  <div class="callout"><b>Gatilho de revisão de tese:</b> se o arcabouço fiscal for mudado formalmente ou a Selic passar de 15,5%, eleve renda fixa e exterior em 5 p.p. cada e reduza ações.</div>
+</section>
+
+<!-- PLANO -->
+<section class="panel" id="plano" role="tabpanel" aria-labelledby="t-plano" hidden>
+  <div class="block">
+    <span class="eyebrow">Plano de reequilíbrio e ação</span>
+    <h2>Executar em parcelas, rebalancear pelos aportes</h2>
+  </div>
+  <div class="grid2">
+    <div class="card block">
+      <h3>Execução nos próximos 6 meses</h3>
+      <div class="timeline">
+        <div class="step"><span class="when">Semana 1</span><p>Monte ou complete a <b>reserva de emergência</b> no pós-fixado (6–12 meses de gastos). Faça a 1ª parcela do IPCA+ e as primeiras compras de ações defensivas e de exterior.</p></div>
+        <div class="step"><span class="when">Semanas 2–4</span><p>2ª e 3ª parcelas do IPCA+, primeira posição em prefixado e em FIIs de papel.</p></div>
+        <div class="step"><span class="when">Meses 2–6</span><p>DCA mensal: 1/6 do alvo em ações e 1/5 do alvo em exterior a cada mês. Entre em FIIs de tijolo a partir do 3º mês.</p></div>
+        <div class="step"><span class="when">A partir do mês 4</span><p>Inclua as <b>ações cíclicas</b> somente depois da sinalização fiscal e das decisões do Copom.</p></div>
+      </div>
+    </div>
+    <div class="card block">
+      <h3>Gatilhos táticos</h3>
+      <div class="tbl-wrap" style="border:0">
+      <table>
+        <thead><tr><th>Se</th><th>Então</th></tr></thead>
+        <tbody>
+          <tr><td>Ibovespa abaixo de <span class="num">165 mil</span> com fundamentos inalterados</td><td>Antecipe duas parcelas de ações</td></tr>
+          <tr><td>Dólar abaixo de <span class="num">R$ 5,15</span></td><td>Antecipe parcelas de exterior</td></tr>
+          <tr><td>Arcabouço alterado ou Selic acima de <span class="num">15,5%</span></td><td>Renda fixa para 40%, exterior para 30%, reduza ações</td></tr>
+          <tr><td>IPCA+ longo abaixo de <span class="num">6,5%</span> e Selic voltando a cair</td><td>Devolva os pontos extras da renda fixa para FIIs, rumo ao 25/25/25/25</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <div class="card block">
+    <h3>Regras de rebalanceamento</h3>
+    <div class="grid2">
+      <div class="rule"><span class="n">1</span><p><b>Rebalanceie pelos aportes.</b> Cada aporte novo vai para o pilar mais abaixo do alvo. Assim você compra o que caiu sem vender o que subiu e sem pagar IR.</p></div>
+      <div class="rule"><span class="n">2</span><p><b>Bandas de ±5 p.p.</b> Se um pilar passar do limite, por exemplo ações acima de 30% num alvo de 25%, venda o excesso respeitando a isenção de R$ 20 mil por mês em ações.</p></div>
+      <div class="rule"><span class="n">3</span><p><b>Revisão completa a cada 6 meses</b>, em abril e outubro, e revisão extraordinária depois de qualquer evento fiscal relevante.</p></div>
+      <div class="rule"><span class="n">4</span><p><b>Volta ao padrão.</b> Quando o ciclo de juros virar, devolva a sobra de renda fixa aos FIIs até chegar a 25% em cada pilar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FONTES -->
+<section class="panel" id="fontes" role="tabpanel" aria-labelledby="t-fontes" hidden>
+  <div class="block">
+    <span class="eyebrow">Fontes e limites</span>
+    <h2>De onde vêm os números</h2>
+    <p class="lead">Os dados de mercado vêm de reportagens de 26 e 27/10/2026, e as fontes divergem nas casas decimais. Os múltiplos do Ibovespa e as probabilidades de cenário são estimativas desta análise. Confira o fechamento oficial (B3, Banco Central) e as taxas do Tesouro Direto antes de executar.</p>
+  </div>
+  <div class="card">
+    <ul class="clean">
+      <li><a href="https://www.infomoney.com.br/politica/ao-vivo-eleicoes-segundo-turno-2026/" target="_blank" rel="noopener">InfoMoney: resultado do 2º turno</a></li>
+      <li><a href="https://timesbrasil.com.br/investimentos/bolsa/com-reeleicao-de-lula-ibovespa-derrete-quase-14-e-pregao-tem-circuit-breaker-dolar-dispara-82-a-r-540/" target="_blank" rel="noopener">Times Brasil: Ibovespa −13,88%, dólar R$ 5,40</a></li>
+      <li><a href="https://infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-26102026" target="_blank" rel="noopener">InfoMoney: circuit breaker e leilões cancelados</a></li>
+      <li><a href="https://www.spacemoney.com.br/investimentos/acoes/ibovespa-hoje/ibovespa-hoje-dolar-dispara-juros-futuros-pos-eleicao" target="_blank" rel="noopener">SpaceMoney: DIs disparam</a></li>
+      <li><a href="https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-27102026/" target="_blank" rel="noopener">InfoMoney: Ibovespa em 27/10</a></li>
+      <li><a href="https://bpmoney.com.br/economia/ibovespa-sobe-aos-1778-mil-pontos-com-bancos-e-b3-dolar-cai-a-r-533/" target="_blank" rel="noopener">BPMoney: Ibovespa 177,8 mil, dólar R$ 5,33</a></li>
+      <li><a href="https://www.mixvale.com.br/2026/10/25/etf-ibovespa-despenca-ate-1963-nos-eua-e-dolar-futuro-chega-a-r-556-em-chicago-apos-reeleicao-de-lula/" target="_blank" rel="noopener">Mix Vale: ETF EWZ e dólar em Chicago</a></li>
+      <li><a href="https://agenciabrasil.ebc.com.br/economia/noticia/2026-09/bc-reduz-juros-basicos-para-1375-ao-ano" target="_blank" rel="noopener">Agência Brasil: Selic em 13,75%</a></li>
+      <li><a href="https://www.meelion.com/blog/mercado-financeiro/copom-novembro-2026-selic-vai-a-1350-ou-para-em-1375/" target="_blank" rel="noopener">Meelion: Copom de novembro e Focus</a></li>
+      <li><a href="https://www.spacemoney.com.br/investimentos/acoes/ibovespa-hoje/inter-preco-alvo-ibovespa-2026/" target="_blank" rel="noopener">SpaceMoney: Inter, P/L de 9,5x e alvo de 193 mil</a></li>
+      <li><a href="https://analisa.genialinvestimentos.com.br/macro-strategy/analises/Ibovespa-perspectivas-e-alvos--Outubro-2026/" target="_blank" rel="noopener">Genial: Ibovespa, perspectivas de outubro de 2026</a></li>
+      <li><a href="https://forbes.com.br/forbes-money/2026/10/prisma-economistas-pioram-deficit-fiscal-divida-publica-2026/" target="_blank" rel="noopener">Forbes: Prisma Fiscal de outubro</a></li>
+      <li><a href="https://www.poder360.com.br/poder-economia/mercado-eleva-projecao-de-deficit-primario-de-2026-a-r-5305-bi/" target="_blank" rel="noopener">Poder360: déficit de R$ 53 bi</a></li>
+      <li><a href="https://static.poder360.com.br/uploads/2026/09/ipca_15_2026_set.pdf" target="_blank" rel="noopener">Poder360: IPCA-15 de setembro</a></li>
+      <li><a href="https://euqueroinvestir.com/renda-fixa/tesouro-direto-hoje-taxas-caem-eleicao-5-outubro-2026" target="_blank" rel="noopener">Eu Quero Investir: taxas do Tesouro após o 1º turno</a></li>
+    </ul>
+  </div>
+  <p class="note">Esta análise é educacional e não constitui recomendação de investimento personalizada nos termos da CVM.</p>
+</section>
+
+</div>
+</main>
+<footer><div class="wrap">Carta ARCA pós-eleição · dados até 27/10/2026, manhã · conteúdo educacional, não é recomendação individual.</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){
+const $ = s => document.querySelector(s);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const pct = (v,d=0) => v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}) + '%';
+const store = {get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- modelo de alocação ---------- */
+const PILLARS = [
+  {k:'A', name:'Ações Brasil', letter:'A', color:'--s1',
+   subs:[['Perenes e defensivas','Elétricas e transmissão (TAEE11, EGIE3), saneamento (SBSP3, SAPR11), bancos e seguradoras (ITUB4, BBSE3)'],
+         ['Exportadoras e dolarizadas','Vale, Suzano, Embraer, frigoríficos. Hedge natural do câmbio'],
+         ['Cíclicas sensíveis a juros','Varejo, construção (CYRE3, CURY3), locadoras. Só depois da sinalização fiscal']]},
+  {k:'R', name:'Renda Fixa Brasil', letter:'R', color:'--s2',
+   subs:[['Pós-fixado (Selic/CDI)','Tesouro Selic, CDB com liquidez diária, LCI/LCA. Reserva e munição do DCA'],
+         ['IPCA+','Tesouro IPCA+ e debêntures incentivadas AAA. Trava juro real alto'],
+         ['Prefixado','Tesouro Prefixado 2029/2032. Aposta tática no cenário base']]},
+  {k:'C', name:'Exterior / Dólar', letter:'C', color:'--s3',
+   subs:[['Ações globais','VT, VOO, IVV ou IVVB11, WRLD11 e BDRs de ETFs'],
+         ['Renda fixa em dólar','T-Bills (SGOV, BIL) e Treasuries de prazo médio (IEF)'],
+         ['Reserva de oportunidade em USD','Conta em dólar remunerada ou SGOV']]},
+  {k:'I', name:'Ativos Imobiliários', letter:'A', color:'--s4',
+   subs:[['FIIs de papel high grade','KNCR11, KNIP11, CPTS11, KNSC11. Renda mensal isenta acompanhando o juro'],
+         ['FIIs de tijolo com desconto','HGLG11, BTLG11, XPML11, KNRI11. Ganho quando a curva fechar']]}
+];
+const PROFILES = {
+  conservador:{label:'Conservador', base:{A:15,R:50,C:20,I:15}, sub:{A:[75,20,5],R:[50,40,10],C:[40,45,15],I:[70,30]}},
+  moderado:   {label:'Moderado',    base:{A:25,R:35,C:25,I:15}, sub:{A:[60,25,15],R:[40,45,15],C:[60,25,15],I:[60,40]}},
+  arrojado:   {label:'Arrojado',    base:{A:30,R:25,C:30,I:15}, sub:{A:[45,25,30],R:[30,50,20],C:[70,15,15],I:[50,50]}}
+};
+
+const state = {perfil:'moderado', horizonte:'longo', objetivo:'patrimonio', inicial:100000, mensal:3000};
+try{ const s = JSON.parse(store.get('arca-state')||'null'); if(s) Object.assign(state, s); }catch(e){}
+if(!PROFILES[state.perfil]) state.perfil='moderado';
+
+function compute(){
+  const p = PROFILES[state.perfil];
+  const w = {...p.base};
+  const sub = JSON.parse(JSON.stringify(p.sub));
+  const adj = [];
+  if(state.horizonte==='medio'){
+    const cut = Math.min(5, w.A-10); w.A-=cut; w.R+=cut;
+    if(cut>0) adj.push(`Horizonte de 3 a 5 anos: −${cut} p.p. em ações, +${cut} p.p. em renda fixa. Prefira IPCA+ com vencimento até 2032.`);
+  } else adj.push('Horizonte longo: IPCA+ 2035 a 2045 e pesos de ações sem corte.');
+  if(state.objetivo==='renda'){
+    w.I+=5; w.C-=5;
+    const mv = Math.min(10, sub.A[2]); sub.A[2]-=mv; sub.A[0]+=mv;
+    adj.push('Renda passiva: +5 p.p. em FIIs e −5 p.p. em exterior. Dentro de ações, o peso das cíclicas migra para pagadoras de dividendos.');
+  } else if(state.objetivo==='inflacao'){
+    let need=15; const fromPre=Math.min(need, sub.R[2]); sub.R[2]-=fromPre; need-=fromPre;
+    const fromPos=Math.min(need, Math.max(0, sub.R[0]-25)); sub.R[0]-=fromPos; sub.R[1]+=fromPre+fromPos;
+    adj.push(`Proteção contra inflação: IPCA+ sobe para ${sub.R[1]}% da renda fixa, tirando peso do prefixado.`);
+  } else adj.push('Construção de patrimônio: sub-alocações padrão do perfil.');
+  return {w, sub, adj};
+}
+
+/* ---------- gráficos ---------- */
+const charts = {};
+const rendered = new Set();
+let current = 'panorama';
+
+function baseOpts(){
+  const ink2 = css('--ink-2'), line = css('--line');
+  Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+  Chart.defaults.color = ink2;
+  Chart.defaults.borderColor = line;
+  return {
+    responsive:true, maintainAspectRatio:false, animation:{duration:400},
+    plugins:{legend:{display:false}, tooltip:tip()}
+  };
+}
+function tip(){
+  return {backgroundColor:css('--surface'), titleColor:css('--ink'), bodyColor:css('--ink-2'),
+    borderColor:css('--line'), borderWidth:1, padding:10, cornerRadius:8, boxPadding:4,
+    titleFont:{weight:'600'}, bodyFont:{family:css('--f-mono')}};
+}
+/* rótulos de valor nas pontas das barras */
+const valueLabels = {
+  id:'valueLabels',
+  afterDatasetsDraw(chart, args, opts){
+    if(!opts || !opts.fmt) return;
+    const {ctx} = chart; ctx.save();
+    ctx.font = `500 11px ${css('--f-mono')}`; ctx.fillStyle = css('--ink');
+    chart.data.datasets.forEach((ds,di)=>{
+      const meta = chart.getDatasetMeta(di); if(meta.hidden) return;
+      meta.data.forEach((el,i)=>{
+        const v = ds.data[i]; if(v==null) return;
+        const txt = opts.fmt(v, i, di);
+        const horiz = chart.options.indexAxis==='y';
+        if(horiz){
+          const neg = (Array.isArray(v)?v[1]:v) < 0;
+          ctx.textBaseline='middle'; ctx.textAlign = neg ? 'right':'left';
+          ctx.fillText(txt, el.x + (neg?-6:6), el.y);
+        } else {
+          const neg = v < 0;
+          ctx.textAlign='center'; ctx.textBaseline = neg ? 'top':'bottom';
+          ctx.fillText(txt, el.x, el.y + (neg?6:-6));
+        }
+      });
+    });
+    ctx.restore();
+  }
+};
+/* linha vertical de referência (nível atual) */
+const refLine = {
+  id:'refLine',
+  afterDatasetsDraw(chart, args, opts){
+    if(!opts || opts.value==null) return;
+    const x = chart.scales.x.getPixelForValue(opts.value);
+    const {top,bottom} = chart.chartArea; const ctx = chart.ctx;
+    ctx.save(); ctx.strokeStyle = css('--ink'); ctx.lineWidth=2; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(x,top); ctx.lineTo(x,bottom); ctx.stroke();
+    ctx.setLineDash([]); ctx.font = `500 11px ${css('--f-mono')}`; ctx.fillStyle=css('--ink'); ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText(opts.label, x, top-2); ctx.restore();
+  }
+};
+Chart.register(valueLabels, refLine);
+
+function make(id, cfg){
+  if(charts[id]) charts[id].destroy();
+  charts[id] = new Chart(document.getElementById(id), cfg);
+}
+const signColor = arr => arr.map(v => v>=0 ? css('--pos') : css('--neg'));
+const fmtSigned = d => v => (v>0?'+':'') + v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}) + '%';
+
+const renderers = {
+  panorama(){
+    const data=[-13.88, 8.21, 26.0, -19.63];
+    const o = baseOpts();
+    make('cMove',{type:'bar',data:{labels:['Ibovespa','Dólar à vista','Risco-país','EWZ (mín. intradia)'],
+      datasets:[{data, backgroundColor:signColor(data), borderRadius:4, borderSkipped:'start', barThickness:18}]},
+      options:{...o, indexAxis:'y', layout:{padding:{left:8,right:48}},
+        plugins:{...o.plugins, valueLabels:{fmt:fmtSigned(1)}, tooltip:{...tip(), callbacks:{label:c=>' '+fmtSigned(2)(c.raw)}}},
+        scales:{x:{min:-30,max:35,grid:{color:css('--line')},ticks:{callback:v=>v+'%'}}, y:{grid:{display:false}}}}});
+  },
+  valuation(){
+    const mk = (id, hoje, media, d, unit) => {
+      const o = baseOpts();
+      make(id,{type:'bar',data:{labels:['Hoje (est.)','Média 15 anos'],
+        datasets:[{data:[hoje,media], backgroundColor:[css('--s1'), css('--neutral')], borderRadius:4, borderSkipped:'start', barThickness:22}]},
+        options:{...o, indexAxis:'y', layout:{padding:{right:44}},
+          plugins:{...o.plugins, valueLabels:{fmt:v=>v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+unit}},
+          scales:{x:{beginAtZero:true, grid:{color:css('--line')}}, y:{grid:{display:false}}}}});
+    };
+    mk('cPL',8.7,10.75,1,'x'); mk('cPVP',1.35,1.65,2,'x'); mk('cDY',7.5,5.0,1,'%');
+    const h=[97.3,-13.3,31.6,22.3]; const o = baseOpts();
+    make('cHist',{type:'bar',data:{labels:[['2003','após 2002'],['2015','após 2014'],['2019','após 2018'],['2023','após 2022']],
+      datasets:[{data:h, backgroundColor:signColor(h), borderRadius:4, borderSkipped:'start', barThickness:36}]},
+      options:{...o, layout:{padding:{top:22}},
+        plugins:{...o.plugins, valueLabels:{fmt:fmtSigned(1)}, tooltip:{...tip(), callbacks:{title:c=>c[0].label.replace(',',' '), label:c=>' Ibovespa no ano: '+fmtSigned(1)(c.raw)}}},
+        scales:{y:{min:-30,max:110,grid:{color:css('--line')},ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}}}}});
+  },
+  cenario(){
+    const sc = SCEN;
+    const cols = [css('--s1'), css('--neg'), css('--s3')];
+    const mk = (id, key, ref, refLbl, fmt, min, max) => {
+      const o = baseOpts();
+      make(id,{type:'bar',data:{labels:sc.map(s=>s.name),
+        datasets:[{data:sc.map(s=>s[key]), backgroundColor:cols, borderRadius:4, borderSkipped:false, barThickness:20}]},
+        options:{...o, indexAxis:'y', layout:{padding:{top:18,right:12}},
+          plugins:{...o.plugins, refLine:{value:ref,label:refLbl},
+            tooltip:{...tip(), callbacks:{label:c=>' '+fmt(c.raw[0])+' a '+fmt(c.raw[1])}}},
+          scales:{x:{min,max,grid:{color:css('--line')},ticks:{callback:v=>fmt(v)}}, y:{grid:{display:false}}}}});
+    };
+    mk('cScenIbov','ibov',177.8,'hoje',v=>v.toLocaleString('pt-BR'),140,245);
+    mk('cScenUsd','usd',5.33,'hoje',v=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}),4.7,6.4);
+  },
+  alocacao(){ renderAlloc(); }
+};
+
+/* ---------- cenários (HTML) ---------- */
+const SCEN = [
+  {name:'Base: ajuste morno', p:50, ibov:[185,210], usd:[5.10,5.40], gat:'Equipe econômica mantida ou pragmática, arcabouço preservado com ajustes', juros:'Fecham parcialmente', c:'--s1'},
+  {name:'Pessimista: dominância fiscal', p:30, ibov:[150,170], usd:[5.70,6.20], gat:'Expansão de gastos, mudança no arcabouço, BC pressionado', juros:'Abrem mais; Selic acima de 15%', c:'--neg'},
+  {name:'Otimista: Carta ao Povo 2.0', p:20, ibov:[210,235], usd:[4.90,5.10], gat:'Nome ortodoxo na Fazenda, pacote de gastos crível, reforma administrativa', juros:'Fecham com força', c:'--s3'}
+];
+function renderScenHtml(){
+  $('#probBar').innerHTML = SCEN.map(s=>`<div style="flex:${s.p};background:var(${s.c})" title="${s.name}: ${s.p}%">${s.p}%</div>`).join('');
+  $('#scenTbl').innerHTML = SCEN.map(s=>`<tr><td><span style="display:inline-flex;gap:8px;align-items:center"><span class="sw" style="background:var(${s.c})"></span><b>${s.name}</b></span></td><td class="r num">${s.p}%</td><td>${s.gat}</td><td>${s.juros}</td></tr>`).join('');
+}
+
+/* ---------- alocação ---------- */
+function parseMoney(s){ const n = parseInt(String(s).replace(/\D/g,''),10); return isNaN(n)?0:n; }
+function syncControls(){
+  document.querySelectorAll('#segPerfil button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.v===state.perfil));
+  document.querySelectorAll('#segHor button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.v===state.horizonte));
+  $('#objetivo').value = state.objetivo;
+  $('#tabProfile').textContent = PROFILES[state.perfil].label;
+}
+
+function schedule(w, sub){
+  /* frações do alvo inicial investidas em cada mês (0..6), por bloco */
+  const plan = {
+    A:[[1/6,1/6,1/6,1/6,1/6,1/6,0],[1/6,1/6,1/6,1/6,1/6,1/6,0],[0,0,0,1/3,1/3,1/3,0]],
+    R:[[1,0,0,0,0,0,0],[2/3,1/3,0,0,0,0,0],[0,1,0,0,0,0,0]],
+    C:[[.2,.2,.2,.2,.2,0,0],[.2,.2,.2,.2,.2,0,0],[.2,.2,.2,.2,.2,0,0]],
+    I:[[.5,.5,0,0,0,0,0],[0,0,1/3,1/3,1/3,0,0]]
+  };
+  const months = 7, out = {A:[],R:[],C:[],I:[],M:[]};
+  const cum = {A:0,R:0,C:0,I:0};
+  for(let m=0;m<months;m++){
+    let fromInit = 0;
+    ['A','R','C','I'].forEach(k=>{
+      const target = state.inicial * w[k]/100;
+      let add = 0;
+      sub[k].forEach((sp,i)=>{ add += target*sp/100*plan[k][i][m]; });
+      cum[k] += add + (m>0 ? state.mensal*w[k]/100 : 0);
+      out[k].push(cum[k]);
+    });
+    const investedInit = ['A','R','C','I'].reduce((s,k)=>s+cum[k],0) - (m>0? state.mensal*m:0);
+    out.M.push(Math.max(0, state.inicial - investedInit));
+  }
+  const m0 = ['A','R','C','I'].reduce((s,k)=>s+out[k][0],0);
+  return {out, m0};
+}
+
+function renderAlloc(){
+  const {w, sub, adj} = compute();
+  syncControls();
+  $('#adjList').innerHTML = '<span class="lbl" style="font-weight:600">Ajustes aplicados</span>' + adj.map(a=>`<span>• ${a}</span>`).join('');
+
+  $('#pillars').innerHTML = PILLARS.map(p=>{
+    const v = w[p.k], d = v-25;
+    const dTxt = d===0 ? 'igual ao padrão' : (d>0?'+':'−')+Math.abs(d)+' p.p. vs 25%';
+    return `<div class="pillar"><div class="k"><span class="letter" style="background:var(${p.color})">${p.letter}</span>${p.name}</div>
+      <div class="pct">${v}%</div><div class="delta ${d>0?'up':d<0?'down':'muted'}">${dTxt}</div><div class="brl">${brl(state.inicial*v/100)}</div></div>`;
+  }).join('');
+
+  $('#vsBars').innerHTML = PILLARS.map(p=>{
+    const v = w[p.k], scale = 60;
+    return `<div class="vs-row"><span>${p.name}</span><div class="vs-track" title="${p.name}: ${v}%"><div class="vs-bar" style="width:${v/scale*100}%;background:var(${p.color})"></div><div class="vs-ref" style="left:${25/scale*100}%"></div></div><span class="num" style="text-align:right">${v}%</span></div>`;
+  }).join('') + `<div class="vs-row note"><span></span><div style="display:flex;justify-content:space-between"><span>0%</span><span>30%</span><span>60%</span></div><span></span></div>`;
+
+  $('#subTbl').innerHTML = PILLARS.map(p=>p.subs.map((s,i)=>{
+    const sp = sub[p.k][i], tot = w[p.k]*sp/100;
+    return `<tr><td><span style="display:inline-flex;gap:8px;align-items:center"><span class="sw" style="background:var(${p.color})"></span><b>${s[0]}</b></span></td>
+      <td class="r num">${sp}%</td><td class="r num">${pct(tot,1)}</td><td class="r num">${brl(state.inicial*tot/100)}</td><td class="muted">${s[1]}</td></tr>`;
+  }).join('')).join('');
+
+  const o = baseOpts();
+  make('cDonut',{type:'doughnut',data:{labels:PILLARS.map(p=>p.name),
+    datasets:[{data:PILLARS.map(p=>w[p.k]), backgroundColor:PILLARS.map(p=>css(p.color)), borderColor:css('--surface'), borderWidth:2, hoverOffset:6}]},
+    options:{...o, cutout:'62%', plugins:{...o.plugins,
+      legend:{display:true, position:'right', labels:{usePointStyle:true, pointStyle:'rectRounded', boxWidth:10, padding:12, color:css('--ink-2'),
+        generateLabels:ch=>ch.data.labels.map((l,i)=>({text:`${l}  ${ch.data.datasets[0].data[i]}%`, fillStyle:ch.data.datasets[0].backgroundColor[i], strokeStyle:'transparent', fontColor:css('--ink-2'), index:i}))}},
+      tooltip:{...tip(), callbacks:{label:c=>` ${c.raw}% · ${brl(state.inicial*c.raw/100)}`}}}}});
+
+  const {out, m0} = schedule(w, sub);
+  const labels = ['Mês 0','Mês 1','Mês 2','Mês 3','Mês 4','Mês 5','Mês 6'];
+  const ds = PILLARS.map(p=>({label:p.name, data:out[p.k], backgroundColor:css(p.color), borderColor:css('--surface'), borderWidth:{top:2}, borderRadius:0, barPercentage:.7}));
+  ds.push({label:'Munição (Tesouro Selic)', data:out.M, backgroundColor:css('--neutral'), borderColor:css('--surface'), borderWidth:{top:2}, borderRadius:{topLeft:4,topRight:4}, borderSkipped:false, barPercentage:.7});
+  make('cDca',{type:'bar',data:{labels, datasets:ds},
+    options:{...o, plugins:{...o.plugins,
+      legend:{display:true, position:'top', align:'start', labels:{usePointStyle:true, pointStyle:'rectRounded', boxWidth:10, padding:14, color:css('--ink-2')}},
+      tooltip:{...tip(), mode:'index', intersect:false, callbacks:{label:c=>` ${c.dataset.label}: ${brl(c.raw)}`,
+        footer:items=>'Total: '+brl(items.reduce((s,i)=>s+i.raw,0))}}},
+      scales:{x:{stacked:true, grid:{display:false}}, y:{stacked:true, grid:{color:css('--line')}, ticks:{callback:v=> v>=1000 ? 'R$ '+(v/1000).toLocaleString('pt-BR')+' mil' : 'R$ '+v}}}}});
+  $('#dcaSummary').textContent = `No mês 0 você investe ${brl(m0)} e deixa ${brl(state.inicial-m0)} no Tesouro Selic como munição. Os ${brl(state.mensal)} mensais seguem os percentuais-alvo, e a munição se esgota no mês 5.`;
+}
+
+function save(){ store.set('arca-state', JSON.stringify(state)); }
+function onChange(){ save(); if(current==='alocacao') renderAlloc(); else { rendered.delete('alocacao'); syncControls(); } }
+
+document.querySelectorAll('#segPerfil button').forEach(b=>b.addEventListener('click',()=>{state.perfil=b.dataset.v; onChange();}));
+document.querySelectorAll('#segHor button').forEach(b=>b.addEventListener('click',()=>{state.horizonte=b.dataset.v; onChange();}));
+$('#objetivo').addEventListener('change',e=>{state.objetivo=e.target.value; onChange();});
+['inicial','mensal'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.value = state[id].toLocaleString('pt-BR');
+  el.addEventListener('input',()=>{
+    const n = parseMoney(el.value); state[id]=n;
+    el.value = n ? n.toLocaleString('pt-BR') : '';
+    onChange();
+  });
+});
+
+/* ---------- abas ---------- */
+const TABS = ['panorama','valuation','cenario','diagnostico','alocacao','riscos','plano','fontes'];
+function show(name){
+  if(!TABS.includes(name)) name='panorama';
+  current = name;
+  TABS.forEach(t=>{
+    document.getElementById(t).hidden = t!==name;
+    document.getElementById('t-'+t).setAttribute('aria-selected', t===name);
+    document.getElementById('t-'+t).tabIndex = t===name ? 0 : -1;
+  });
+  if(renderers[name] && !rendered.has(name)){ renderers[name](); rendered.add(name); }
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+  const t=b.dataset.tab;
+  if(location.hash !== '#'+t) location.hash = t; else show(t);
+  store.set('arca-tab', t);
+}));
+document.querySelector('[role="tablist"]').addEventListener('keydown',e=>{
+  if(e.key!=='ArrowRight' && e.key!=='ArrowLeft') return;
+  const i = TABS.indexOf(current) + (e.key==='ArrowRight'?1:-1);
+  const t = TABS[(i+TABS.length)%TABS.length]; location.hash=t; document.getElementById('t-'+t).focus();
+});
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+
+/* re-render ao trocar de tema */
+function rethemed(){ rendered.clear(); show(current); }
+try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', rethemed); }catch(e){}
+new MutationObserver(rethemed).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+renderScenHtml();
+syncControls();
+const start = location.hash.slice(1) || store.get('arca-tab') || 'panorama';
+show(start);
+})();
+</script>
+
+</body>
+</html>
